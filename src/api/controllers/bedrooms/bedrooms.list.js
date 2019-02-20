@@ -1,4 +1,6 @@
 const errorHandler = require('../../utils/errorHandler')
+const isAuth = require('../../middlewares/isAuth')
+const isAdmin = require('../../middlewares/isAdmin')
 
 /**
  * GET /bedrooms
@@ -16,6 +18,7 @@ const errorHandler = require('../../utils/errorHandler')
  */
 module.exports = app => {
 
+  app.get('/bedrooms', [isAuth(), isAdmin()])
   app.get('/bedrooms', async (req, res) => {
     const { Bedroom, User } = req.app.locals.models
 

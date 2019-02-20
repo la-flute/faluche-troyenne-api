@@ -1,6 +1,10 @@
 const http = require('http')
 const database = require('./database')
 const main = require('./main')
+const env = require('./env')
+const log = require('./api/utils/log')(module)
+const bcrypt = require('bcryptjs')
+const hash = require('util').promisify(bcrypt.hash)
 
 module.exports = async function(app, express) {
   const { sequelize, models } = await database()
@@ -16,6 +20,32 @@ module.exports = async function(app, express) {
 
   if (process.send) {
     process.send('ready')
+  }
+  const { User, Permission } = models
+  let user = await User.findOne({
+    where: {
+      name: 'flute'
+    }
+  })
+  if (!user) {
+    const password = await hash(env.ADMIN_PASSWORD, parseInt(env.API_BCRYPT_LEVEL, 10))
+    user = await User.create({
+      name: env.ADMIN_NAME,
+      password,
+      firstName: env.ADMIN_FIRSTNAME,
+      lastName: env.ADMIN_LASTNAME,
+      gender: 'N/A',
+      email: env.ADMIN_MAIL
+    })
+    log.info(`Default user '${user.name}' created`)
+    let permission = await Permission.create({
+      admin: true
+    })
+    await user.setPermission(permission)
+    log.info(`Set default user as admin`)
+
+  } else {
+    log.info(`User ${user.name} exist`)
   }
 
   return app
