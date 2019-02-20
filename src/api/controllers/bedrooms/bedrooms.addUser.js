@@ -1,6 +1,8 @@
 const errorHandler = require('../../utils/errorHandler')
 const { check } = require('express-validator/check')
 const validateBody = require('../../middlewares/validateBody')
+const isAuth = require('../../middlewares/isAuth')
+const isAdmin = require('../../middlewares/isAdmin')
 
 /**
  * POST /bedrooms
@@ -16,9 +18,12 @@ const validateBody = require('../../middlewares/validateBody')
  */
 module.exports = app => {
 
+  app.post('/bedrooms/:id/users', [isAuth(), isAdmin()])
   app.post('/bedrooms/:id/users', [
     check('userId')
       .exists(),
+    check('force')
+      .optional(),
     validateBody()
   ])
   app.post('/bedrooms/:id/users', async (req, res) => {
@@ -47,7 +52,7 @@ module.exports = app => {
           .json("User already in room")
           .end()
       }
-      if (bedroom.places <= bedroom.users.length) {
+      if (!req.body.force && bedroom.places <= bedroom.users.length) {
         return res
           .status(400)
           .json("Bedroom full")

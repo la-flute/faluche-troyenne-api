@@ -7,12 +7,19 @@ module.exports = function(sequelize) {
   const Tinder = sequelize.import(`${__dirname}/tinder`)
   const Target = sequelize.import(`${__dirname}/target`)
   const Price = sequelize.import(`${__dirname}/price`)
+  const Item = sequelize.import(`${__dirname}/item`)
 
   Order.belongsTo(User)
   User.hasMany(Order)
 
   Order.belongsTo(Price)
   Price.hasMany(Order)
+
+  Item.belongsTo(Order)
+  Order.hasMany(Item)
+
+  Item.belongsTo(Price)
+  Price.hasMany(Item)
 
   User.belongsTo(Team)
   Team.hasMany(User)
@@ -35,6 +42,7 @@ module.exports = function(sequelize) {
     Tinder,
     Target,
     Team,
-    Price
+    Price,
+    Item
   }
 }

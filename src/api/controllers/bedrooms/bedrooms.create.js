@@ -1,6 +1,8 @@
 const errorHandler = require('../../utils/errorHandler')
 const { check } = require('express-validator/check')
 const validateBody = require('../../middlewares/validateBody')
+const isAuth = require('../../middlewares/isAuth')
+const isAdmin = require('../../middlewares/isAdmin')
 
 /**
  * POST /bedrooms
@@ -16,6 +18,7 @@ const validateBody = require('../../middlewares/validateBody')
  */
 module.exports = app => {
 
+  app.post('/bedrooms', [isAuth(), isAdmin()])
   app.post('/bedrooms', [
     check('number')
       .isNumeric()

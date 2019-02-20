@@ -7,6 +7,5 @@ module.exports = (sequelize, DataTypes) => {
     transactionId: { type: DataTypes.INTEGER, defaultValue: 0 },
     transactionState: { type: DataTypes.STRING },
     isBachusTroue: { type: DataTypes.BOOLEAN, defaultValue: false },
-    isLogementDure: { type: DataTypes.BOOLEAN, defaultValue: false },
   })
 }
