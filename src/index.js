@@ -24,7 +24,7 @@ module.exports = async function(app, express) {
   const { User, Permission } = models
   let user = await User.findOne({
     where: {
-      name: 'flute'
+      name: env.ADMIN_NAME
     }
   })
   if (!user) {
@@ -37,7 +37,7 @@ module.exports = async function(app, express) {
       gender: 'N/A',
       email: env.ADMIN_MAIL
     })
-    log.info(`Default user '${user.name}' created`)
+    log.info(`Default user '${user.email}' created`)
     let permission = await Permission.create({
       admin: true
     })
@@ -45,7 +45,7 @@ module.exports = async function(app, express) {
     log.info(`Set default user as admin`)
 
   } else {
-    log.info(`User ${user.name} exist`)
+    log.info(`User ${user.email} exist`)
   }
 
   return app

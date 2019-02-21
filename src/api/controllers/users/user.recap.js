@@ -16,7 +16,7 @@ module.exports = app => {
 
   app.get('/user', async (req, res) => {
     try {
-      log.info(`user ${req.user.name} checked his infos`)
+      log.info(`user ${req.user.email} checked his infos`)
       req.user.order = await req.app.locals.models.Order
         .findOne({
           where: {

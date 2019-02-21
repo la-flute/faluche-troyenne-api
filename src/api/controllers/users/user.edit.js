@@ -10,7 +10,6 @@ const log = require('../../utils/log')(module)
 /**
  * PUT /user
  * {
- *    name: String
  *    email: String
  *    [password]: String
  * }
@@ -25,7 +24,7 @@ module.exports = app => {
 
   app.put('/user', [
     check('name')
-      .exists()
+      .optional()
       .matches(/[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzªµºÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿĄąĆćĘęıŁłŃńŒœŚśŠšŸŹźŻżŽžƒˆˇˉμﬁﬂ \-]+/i)
       .isLength({ min: 3, max: 90 }),
     check('lastName')
@@ -74,7 +73,7 @@ module.exports = app => {
 
       await req.user.update(req.body)
 
-      log.info(`user ${req.body.name} updated`)
+      log.info(`user ${req.body.email} updated`)
 
       res
         .status(200)

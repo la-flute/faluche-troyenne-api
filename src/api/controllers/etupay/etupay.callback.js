@@ -27,7 +27,7 @@ async function handlePayload(models, payload) {
       order.paid_at = moment().format()
     }
 
-    log.info(`user ${user.name} is at state ${order.transactionState} for his order ${order.id}`)
+    log.info(`user ${user.email} is at state ${order.transactionState} for his order ${order.id}`)
 
     await user.save()
     await order.save()
@@ -89,10 +89,10 @@ module.exports = app => {
         //TODO send validation mail
       }
       if(transactionState !== 'paid') {
-        log.info(`${user.name} was redirected to ${env.ETUPAY_ERRORURL}`)
+        log.info(`${user.email} was redirected to ${env.ETUPAY_ERRORURL}`)
         return res.redirect(env.ETUPAY_ERRORURL)
       }
-      log.info(`${user.name} was redirected to ${env.ETUPAY_SUCCESSURL}`)
+      log.info(`${user.email} was redirected to ${env.ETUPAY_SUCCESSURL}`)
       return res.redirect(env.ETUPAY_SUCCESSURL)
     }
 

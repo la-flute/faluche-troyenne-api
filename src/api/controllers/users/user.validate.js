@@ -44,13 +44,13 @@ module.exports = app => {
       user.registerToken = null
       await user.save()
 
-      log.info(`user ${user.name} was validated`)
+      log.info(`user ${user.email} was validated`)
 
       const token = jwt.sign({ id: user.id }, env.API_SECRET, {
         expiresIn: env.API_SECRET_EXPIRES
       })
 
-      log.info(`user ${user.name} logged`)
+      log.info(`user ${user.email} logged`)
 
       res
         .status(200)

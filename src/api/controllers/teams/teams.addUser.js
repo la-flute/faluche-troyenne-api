@@ -5,11 +5,11 @@ const isAuth = require('../../middlewares/isAuth')
 const isAdmin = require('../../middlewares/isAdmin')
 
 /**
- * POST /bedrooms
+ * POST /teams/:id/users
  * 
  * Body : 
  * 
- * { number, floor, places }
+ * { userId }
  *
  * Response:
  * {
@@ -17,16 +17,14 @@ const isAdmin = require('../../middlewares/isAdmin')
  * }
  */
 module.exports = app => {
-
-  app.post('/bedrooms/:id/users', [isAuth(), isAdmin()])
-  app.post('/bedrooms/:id/users', [
+/*
+  app.post('/teams/:id/users', [isAuth(), isAdmin()])
+  app.post('/teams/:id/users', [
     check('userId')
       .exists(),
-    check('force')
-      .optional(),
     validateBody()
   ])
-  app.post('/bedrooms/:id/users', async (req, res) => {
+  app.post('/teams/:id/users', async (req, res) => {
     const { Bedroom, User } = req.app.locals.models
 
     try {
@@ -66,5 +64,5 @@ module.exports = app => {
     } catch (err) {
       errorHandler(err, res)
     }
-  })
+  })*/
 }

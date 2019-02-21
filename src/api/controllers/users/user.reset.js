@@ -2,7 +2,7 @@ const { check } = require('express-validator/check')
 const bcrypt = require('bcryptjs')
 const uuid = require('uuid')
 const validateBody = require('../../middlewares/validateBody')
-//const mail = require('../../mail')
+//const mail = require('../../mail') //TODO
 const env = require('../../../env')
 const errorHandler = require('../../utils/errorHandler')
 const log = require('../../utils/log')(module)
@@ -50,12 +50,13 @@ module.exports = app => {
 
       user.resetToken = uuid()
       await user.save()
+      // TODO
       /*await mail('user.reset', user.email, {
         mail: user.email,
         link: `${env.ARENA_WEBSITE}/reset/${user.resetToken}`
       })*/
 
-      log.info(`user ${user.name} asked for mail reset`)
+      log.info(`user ${user.email} asked for mail reset`)
 
       res
         .status(200)
@@ -102,7 +103,7 @@ module.exports = app => {
 
       await user.save()
 
-      log.info(`user ${user.name} reseted his password`)
+      log.info(`user ${user.email} reseted his password`)
 
       res
         .status(200)

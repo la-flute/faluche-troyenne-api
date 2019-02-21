@@ -1,7 +1,6 @@
 const { check } = require('express-validator/check')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const { Op } = require('sequelize')
 
 const env = require('../../../env')
 const log = require('../../utils/log')(module)
@@ -13,7 +12,7 @@ const isLoginEnabled = require('../../middlewares/isLoginEnabled')
 /**
  * PUT /user/login
  * {
- *    name: String
+ *    email: Mail
  *    password: String
  * }
  *
@@ -27,9 +26,9 @@ module.exports = app => {
   app.put('/user/login', [isLoginEnabled()])
 
   app.put('/user/login', [
-    check('name')
+    check('email')
       .exists()
-      .matches(/[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzªµºÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿĄąĆćĘęıŁłŃńŒœŚśŠšŸŹźŻżŽžƒˆˇˉμﬁﬂ \-]+/i),
+      .isEmail(),
     check('password')
       .exists(),
     validateBody()
@@ -39,18 +38,17 @@ module.exports = app => {
     const { User } = req.app.locals.models
 
     try {
-      const username = req.body.name
-      const password = req.body.password
+      const { email, password } = req.body
 
       // Get user
       const user = await User.findOne({
         where: {
-          [Op.or]: [{ name: username }, { email: username }]
+          email
         }
       })
 
       if (!user) {
-        log.warn(`user ${username} couldn't be found`)
+        log.warn(`user with mail ${email} couldn't be found`)
 
         return res
           .status(400)
@@ -62,7 +60,7 @@ module.exports = app => {
       const passwordMatches = await bcrypt.compare(password, user.password)
 
       if (!passwordMatches) {
-        log.warn(`user ${username} password didn't match`)
+        log.warn(`user (${email}) password didn't match`)
 
         return res
           .status(400)
@@ -72,7 +70,7 @@ module.exports = app => {
 
       // Check if account is activated
       if (user.registerToken) {
-        log.warn(`user ${username} tried to login before activating`)
+        log.warn(`user (${email}) tried to login before activating`)
 
         return res
           .status(400)
@@ -86,7 +84,7 @@ module.exports = app => {
       })
 
 
-      log.info(`user ${user.name} logged`)
+      log.info(`user ${user.email} logged`)
 
       res
         .status(200)
