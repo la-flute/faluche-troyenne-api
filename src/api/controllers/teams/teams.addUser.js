@@ -11,13 +11,9 @@ const isAdmin = require('../../middlewares/isAdmin')
  * 
  * { userId }
  *
- * Response:
- * {
- *    id, number, floor, places, updatedAt, createdAt
- * }
  */
 module.exports = app => {
-/*
+
   app.post('/teams/:id/users', [isAuth(), isAdmin()])
   app.post('/teams/:id/users', [
     check('userId')
@@ -25,16 +21,16 @@ module.exports = app => {
     validateBody()
   ])
   app.post('/teams/:id/users', async (req, res) => {
-    const { Bedroom, User } = req.app.locals.models
+    const { Team, User } = req.app.locals.models
 
     try {
-      let bedroom = await Bedroom.findById(req.params.id, {
+      let team = await Team.findById(req.params.id, {
         include: [User]
       })
-      if (!bedroom) {
+      if (!team) {
         return res
           .status(404)
-          .json({ error: 'Bedroom not found' })
+          .json({ error: 'Team not found' })
           .end()
       }
       let user = await User.findById(req.body.userId)
@@ -44,19 +40,13 @@ module.exports = app => {
           .json({ error: 'User not found' })
           .end()
       }
-      if (bedroom.users.find(u => u.id === user.id)) {
+      if (team.users.find(u => u.id === user.id)) {
         return res
           .status(400)
-          .json({ error: 'User already in room' })
+          .json({ error: 'User already in team' })
           .end()
       }
-      if (!req.body.force && bedroom.places <= bedroom.users.length) {
-        return res
-          .status(400)
-          .json({ error: 'Bedroom full' })
-          .end()
-      }
-      await bedroom.addUser(user)
+      await team.addUser(user)
       return res
         .status(200)
         .json('OK')
@@ -64,5 +54,5 @@ module.exports = app => {
     } catch (err) {
       errorHandler(err, res)
     }
-  })*/
+  })
 }
