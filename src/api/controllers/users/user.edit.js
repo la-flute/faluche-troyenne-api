@@ -4,7 +4,7 @@ const validateBody = require('../../middlewares/validateBody')
 const isAuth = require('../../middlewares/isAuth')
 const env = require('../../../env')
 const errorHandler = require('../../utils/errorHandler')
-const { outputFields, inputFields } = require('../../utils/publicFields')
+const { outputFields } = require('../../utils/publicFields')
 const log = require('../../utils/log')(module)
 
 /**
@@ -36,30 +36,43 @@ module.exports = app => {
       .exists()
       .matches(/[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzªµºÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿĄąĆćĘęıŁłŃńŒœŚśŠšŸŹźŻżŽžƒˆˇˉμﬁﬂ \-]+/i)
       .isLength({ min: 2, max: 200 }),
-    check('gender')
-      .isIn(['M', 'F', 'N/A'])
-      .optional(),
     check('password')
-      .optional()
+      .exists()
       .isLength({ min: 6 }),
     check('email')
       .exists()
       .isEmail(),
+    check('town')
+      .exists(),
+    check('studies')
+      .exists(),
+    check('phone')
+      .exists(),
+    check('address')
+      .exists(),
+    check('isMajeur')
+      .isBoolean()
+      .exists(),
+    check('allergies')
+      .exists(),
+    check('folklore')
+      .exists(),
+    check('trajet')
+      .exists(),
+    check('trajet_commentaire')
+      .optional(),
     validateBody()
   ])
 
   app.put('/user', async (req, res) => {
     try {
-      if (req.body.password) {
-        req.body.password = await bcrypt.hash(
-          req.body.password,
-          parseInt(env.API_BCRYPT_LEVEL, 10)
-        )
-      }
+      req.body.password = await bcrypt.hash(
+        req.body.password,
+        parseInt(env.API_BCRYPT_LEVEL, 10)
+      )
+      
 
-      const body = inputFields(req.body)
-
-      await req.user.update(body)
+      await req.user.update(req.body)
 
       log.info(`user ${req.body.name} updated`)
 

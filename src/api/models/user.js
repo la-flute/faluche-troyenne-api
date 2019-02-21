@@ -12,7 +12,6 @@ module.exports = (sequelize, DataTypes) => {
     isMajeur: { type: DataTypes.BOOLEAN },
     regime: { type: DataTypes.STRING },
     allergies: { type: DataTypes.STRING },
-    gender: { type: DataTypes.STRING, defaultValue: 'N/A' },
     folklore: { type: DataTypes.STRING },
     trajet: { type: DataTypes.STRING },
     trajet_commentaire: { type: DataTypes.STRING },

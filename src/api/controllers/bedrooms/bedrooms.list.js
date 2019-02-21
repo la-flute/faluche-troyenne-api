@@ -18,7 +18,7 @@ const isAdmin = require('../../middlewares/isAdmin')
  */
 module.exports = app => {
 
-  app.get('/bedrooms', [isAuth(), isAdmin()])
+  app.get('/bedrooms', [isAuth()])
   app.get('/bedrooms', async (req, res) => {
     const { Bedroom, User } = req.app.locals.models
 
@@ -27,7 +27,7 @@ module.exports = app => {
         attributes: ['id', 'number', 'places', 'floor'],
         include: [{
           model: User,
-          attributes: ['id']
+          attributes: ['id', 'name', 'firstName']
         }]
       })
       return res
