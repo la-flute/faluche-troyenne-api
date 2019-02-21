@@ -2,25 +2,25 @@ const errorHandler = require('../../utils/errorHandler')
 const isAuth = require('../../middlewares/isAuth')
 
 /**
- * POST /bedrooms/:id/leave
+ * POST /teams/:id/leave
  */
 module.exports = app => {
 
-  app.post('/bedrooms/:id/leave', [isAuth()])
-  app.post('/bedrooms/:id/leave', async (req, res) => {
-    const { Bedroom, User } = req.app.locals.models
+  app.post('/teams/:id/leave', [isAuth('team-leave')])
+  app.post('/teams/:id/leave', async (req, res) => {
+    const { Team, User } = req.app.locals.models
 
     try {
       let user = await User.findById(req.user.id, {
-        include: [Bedroom]
+        include: [Team]
       })
-      if (!user.bedroom) {
+      if (!user.team) {
         return res
           .status(404)
-          .json({ error: 'User has no room' })
+          .json({ error: 'User has no team' })
           .end()
       }
-      user.bedroomId = null
+      user.teamId = null
       await user.save()
       return res
         .status(200)

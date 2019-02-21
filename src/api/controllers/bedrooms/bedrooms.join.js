@@ -1,29 +1,17 @@
 const errorHandler = require('../../utils/errorHandler')
-const { check } = require('express-validator/check')
-const validateBody = require('../../middlewares/validateBody')
 const isAuth = require('../../middlewares/isAuth')
-const isAdmin = require('../../middlewares/isAdmin')
 
 /**
- * POST /bedrooms
- * 
- * Body : 
- * 
- * { number, floor, places }
- *
- * Response:
- * {
- *    id, number, floor, places, updatedAt, createdAt
- * }
+ * POST /bedrooms/:id/join
  */
 module.exports = app => {
 
   app.post('/bedrooms/:id/join', [isAuth()])
   app.post('/bedrooms/:id/join', async (req, res) => {
-    const { Bedroom, User } = req.app.locals.models
+    const { Bedroom, User, Order } = req.app.locals.models
 
     try {
-      const paid = await req.app.locals.models.Order
+      const paid = await Order
         .findOne({
           where: {
             paid: 1,
