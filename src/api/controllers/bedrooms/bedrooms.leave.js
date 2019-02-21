@@ -29,14 +29,14 @@ module.exports = app => {
       if (!user.bedroom) {
         return res
           .status(404)
-          .json("User has no room")
+          .json({ error: 'User has no room' })
           .end()
       }
       user.bedroomId = null
       await user.save()
       return res
         .status(200)
-        .json("OK")
+        .json('OK')
         .end()
     } catch (err) {
       errorHandler(err, res)

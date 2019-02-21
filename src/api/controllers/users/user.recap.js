@@ -17,7 +17,13 @@ module.exports = app => {
   app.get('/user', async (req, res) => {
     try {
       log.info(`user ${req.user.name} checked his infos`)
-
+      req.user.order = await req.app.locals.models.Order
+        .findOne({
+          where: {
+            paid: 1,
+            userId: req.user.id
+          }
+        })
       
       res
         .status(200)
@@ -35,7 +41,8 @@ module.exports = app => {
           'allergies',
           'folklore',
           'trajet',
-          'trajet_commentaire'
+          'trajet_commentaire',
+          'order'
         ]))
         .end()
     } catch (err) {

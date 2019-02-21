@@ -29,21 +29,21 @@ module.exports = app => {
       if (!bedroom) {
         return res
           .status(404)
-          .json("Bedroom not found")
+          .json({ error: 'Bedroom not found' })
           .end()
       }
       let user = bedroom.users.find(u => u.id === req.params.userId)
       if (!user) {
         return res
           .status(404)
-          .json("User not in bedroom")
+          .json({ error: 'User not in bedroom' })
           .end()
       }
       user.bedroomId = null
       await user.save()
       return res
         .status(200)
-        .json("OK")
+        .json('OK')
         .end()
     } catch (err) {
       errorHandler(err, res)

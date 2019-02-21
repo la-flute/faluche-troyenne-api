@@ -22,8 +22,6 @@ module.exports = route => async (req, res, next) => {
   try {
     const decoded = await jwt.verify(auth, env.API_SECRET)
 
-    console.log('decoded')
-    console.log(decoded)
     const user = await User.findById(decoded.id, {
       include:
       [

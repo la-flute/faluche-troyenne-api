@@ -36,32 +36,32 @@ module.exports = app => {
       if (!bedroom) {
         return res
           .status(404)
-          .json("Bedroom not found")
+          .json({ error: 'Bedroom not found' })
           .end()
       }
       let user = await User.findById(req.body.userId)
       if (!user) {
         return res
           .status(404)
-          .json("User not found")
+          .json({ error: 'User not found' })
           .end()
       }
       if (bedroom.users.find(u => u.id === user.id)) {
         return res
           .status(400)
-          .json("User already in room")
+          .json({ error: 'User already in room' })
           .end()
       }
       if (!req.body.force && bedroom.places <= bedroom.users.length) {
         return res
           .status(400)
-          .json("Bedroom full")
+          .json({ error: 'Bedroom full' })
           .end()
       }
       await bedroom.addUser(user)
       return res
         .status(200)
-        .json("OK")
+        .json('OK')
         .end()
     } catch (err) {
       errorHandler(err, res)

@@ -2,9 +2,6 @@ const env = require('../../../env')
 const log = require('../../utils/log')(module)
 const moment = require('moment')
 const Base64 = require('js-base64').Base64
-console.log(env.ETUPAY_ID)
-console.log(env.ETUPAY_URL)
-console.log(env.ETUPAY_KEY)
 const etupay = require('@ung/node-etupay')({
   id: env.ETUPAY_ID,
   url: env.ETUPAY_URL,
