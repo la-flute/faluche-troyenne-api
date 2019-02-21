@@ -13,7 +13,8 @@ const hash = require('util').promisify(bcrypt.hash)
 /**
  * POST /user
  * {
- *    name: String
+ *    firstName: String
+ *    lastName: String
  *    password: String
  *    email: String
  * }
@@ -27,10 +28,6 @@ module.exports = app => {
   app.post('/user', [isLoginEnabled()])
 
   app.post('/user', [
-    check('name')
-      .exists()
-      .matches(/[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzªµºÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿĄąĆćĘęıŁłŃńŒœŚśŠšŸŹźŻżŽžƒˆˇˉμﬁﬂ \-]+/i)
-      .isLength({ min: 3, max: 90 }),
     check('lastName')
       .exists()
       .matches(/[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzªµºÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿĄąĆćĘęıŁłŃńŒœŚśŠšŸŹźŻżŽžƒˆˇˉμﬁﬂ \-]+/i)
@@ -62,7 +59,7 @@ module.exports = app => {
         link: `${env.ARENA_WEBSITE}/valid/${user.registerToken}`
       })*/
 
-      log.info(`user ${user.name} created`)
+      log.info(`user ${user.email} created`)
 
       res
         .status(200)

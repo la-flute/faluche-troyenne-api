@@ -5,38 +5,32 @@ const isAuth = require('../../middlewares/isAuth')
 const isAdmin = require('../../middlewares/isAdmin')
 
 /**
- * POST /bedrooms
+ * POST /teams/:id/users
  * 
  * Body : 
  * 
- * { number, floor, places }
+ * { userId }
  *
- * Response:
- * {
- *    id, number, floor, places, updatedAt, createdAt
- * }
  */
 module.exports = app => {
 
-  app.post('/bedrooms/:id/users', [isAuth(), isAdmin()])
-  app.post('/bedrooms/:id/users', [
+  app.post('/teams/:id/users', [isAuth(), isAdmin()])
+  app.post('/teams/:id/users', [
     check('userId')
       .exists(),
-    check('force')
-      .optional(),
     validateBody()
   ])
-  app.post('/bedrooms/:id/users', async (req, res) => {
-    const { Bedroom, User } = req.app.locals.models
+  app.post('/teams/:id/users', async (req, res) => {
+    const { Team, User } = req.app.locals.models
 
     try {
-      let bedroom = await Bedroom.findById(req.params.id, {
+      let team = await Team.findById(req.params.id, {
         include: [User]
       })
-      if (!bedroom) {
+      if (!team) {
         return res
           .status(404)
-          .json({ error: 'Bedroom not found' })
+          .json({ error: 'Team not found' })
           .end()
       }
       let user = await User.findById(req.body.userId)
@@ -46,19 +40,19 @@ module.exports = app => {
           .json({ error: 'User not found' })
           .end()
       }
-      if (bedroom.users.find(u => u.id === user.id)) {
+      if (team.users.find(u => u.id === user.id)) {
         return res
           .status(400)
-          .json({ error: 'User already in room' })
+          .json({ error: 'User already in team' })
           .end()
       }
-      if (!req.body.force && bedroom.places <= bedroom.users.length) {
+      if (user.teamId) {
         return res
           .status(400)
-          .json({ error: 'Bedroom full' })
+          .json({ error: 'User already has a team' })
           .end()
       }
-      await bedroom.addUser(user)
+      await team.addUser(user)
       return res
         .status(200)
         .json('OK')

@@ -24,20 +24,19 @@ module.exports = async function(app, express) {
   const { User, Permission } = models
   let user = await User.findOne({
     where: {
-      name: 'flute'
+      email: env.ADMIN_MAIL
     }
   })
   if (!user) {
     const password = await hash(env.ADMIN_PASSWORD, parseInt(env.API_BCRYPT_LEVEL, 10))
     user = await User.create({
-      name: env.ADMIN_NAME,
+      name: 'admin',
       password,
-      firstName: env.ADMIN_FIRSTNAME,
-      lastName: env.ADMIN_LASTNAME,
-      gender: 'N/A',
+      firstName: 'admin_fname',
+      lastName: 'admin_lname',
       email: env.ADMIN_MAIL
     })
-    log.info(`Default user '${user.name}' created`)
+    log.info(`Default user '${user.email}' created`)
     let permission = await Permission.create({
       admin: true
     })
@@ -45,7 +44,7 @@ module.exports = async function(app, express) {
     log.info(`Set default user as admin`)
 
   } else {
-    log.info(`User ${user.name} exist`)
+    log.info(`User ${user.email} exist`)
   }
 
   return app

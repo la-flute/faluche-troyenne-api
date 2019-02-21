@@ -1,6 +1,5 @@
 const errorHandler = require('../../utils/errorHandler')
 const isAuth = require('../../middlewares/isAuth')
-const isAdmin = require('../../middlewares/isAdmin')
 
 /**
  * GET /teams
