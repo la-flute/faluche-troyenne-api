@@ -46,6 +46,12 @@ module.exports = app => {
           .json({ error: 'User already in team' })
           .end()
       }
+      if (user.teamId) {
+        return res
+          .status(400)
+          .json({ error: 'User already has a team' })
+          .end()
+      }
       await team.addUser(user)
       return res
         .status(200)
