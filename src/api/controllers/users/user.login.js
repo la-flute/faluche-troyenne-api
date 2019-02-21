@@ -85,10 +85,13 @@ module.exports = app => {
 
 
       log.info(`user ${user.email} logged`)
-
+      const { id, name, email, firstName, lastName } = user
       res
         .status(200)
-        .json({ user: outputFields(user), token })
+        .json({
+          user: {
+            id, name, email, firstName, lastName
+        }, token })
         .end()
     } catch (err) {
       errorHandler(err, res)
