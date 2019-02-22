@@ -1,11 +1,9 @@
-const bcrypt = require('bcryptjs')
 const { check } = require('express-validator/check')
 const validateBody = require('../../middlewares/validateBody')
 const isAuth = require('../../middlewares/isAuth')
-const env = require('../../../env')
 const errorHandler = require('../../utils/errorHandler')
-const { outputFields } = require('../../utils/publicFields')
 const log = require('../../utils/log')(module)
+const pick = require('lodash.pick')
 
 /**
  * PUT /user
@@ -35,12 +33,6 @@ module.exports = app => {
       .exists()
       .matches(/[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzªµºÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿĄąĆćĘęıŁłŃńŒœŚśŠšŸŹźŻżŽžƒˆˇˉμﬁﬂ \-]+/i)
       .isLength({ min: 2, max: 200 }),
-    check('password')
-      .exists()
-      .isLength({ min: 6 }),
-    check('email')
-      .exists()
-      .isEmail(),
     check('town')
       .exists(),
     check('studies')
@@ -53,7 +45,9 @@ module.exports = app => {
       .isBoolean()
       .exists(),
     check('allergies')
-      .exists(),
+      .optional(),
+    check('medication')
+      .optional(),
     check('folklore')
       .exists(),
     check('trajet')
@@ -65,19 +59,37 @@ module.exports = app => {
 
   app.put('/user', async (req, res) => {
     try {
-      req.body.password = await bcrypt.hash(
-        req.body.password,
-        parseInt(env.API_BCRYPT_LEVEL, 10)
-      )
-      
-
+      if (req.user.town) {
+        res
+          .status(400)
+          .json({ error: 'ALREADY_SUBMITTED' })
+          .end()
+      }
       await req.user.update(req.body)
 
       log.info(`user ${req.body.email} updated`)
 
       res
         .status(200)
-        .json({ user: outputFields(req.user) })
+        .json(pick(req.user, [
+          'id',
+          'nickName',
+          'firstName',
+          'lastName',
+          'email',
+          'town',
+          'studies',
+          'phone',
+          'address',
+          'isMajeur',
+          'allergies',
+          'folklore',
+          'trajet',
+          'trajet_commentaire',
+          'order',
+          'bedroomId',
+          'teamId'
+        ]))
         .end()
     } catch (err) {
       errorHandler(err, res)
