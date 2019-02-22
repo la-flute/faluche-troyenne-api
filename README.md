@@ -10,9 +10,9 @@ API du site de présentation et d'inscription aux événements organisés par la
 ## Installation
 
 ```
-git clone https://github.com/Fleuh/faluche-troyenne-api.git
+git clone https://github.com/la-flute/faluche-troyenne-api.git
 # or
-git clone git@github.com:Fleuh/faluche-troyenne-api.git
+git clone git@github.com:la-flute/faluche-troyenne-api.git
 
 cd faluche-troyenne-api
 yarn
