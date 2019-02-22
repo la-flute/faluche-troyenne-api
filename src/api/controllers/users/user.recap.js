@@ -29,7 +29,7 @@ module.exports = app => {
         .status(200)
         .json(pick(req.user, [
           'id',
-          'name',
+          'nickName',
           'firstName',
           'lastName',
           'email',
@@ -42,7 +42,9 @@ module.exports = app => {
           'folklore',
           'trajet',
           'trajet_commentaire',
-          'order'
+          'order',
+          'bedroomId',
+          'teamId'
         ]))
         .end()
     } catch (err) {

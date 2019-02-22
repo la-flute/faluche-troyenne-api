@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs')
 const uuid = require('uuid')
 const validateBody = require('../../middlewares/validateBody')
 const isLoginEnabled = require('../../middlewares/isLoginEnabled')
-//const mail = require('../../mail')
+const mail = require('../../mail')
 const env = require('../../../env')
 const errorHandler = require('../../utils/errorHandler')
 const log = require('../../utils/log')(module)
@@ -54,12 +54,13 @@ module.exports = app => {
       req.body.registerToken = uuid()
       const user = await User.create(req.body)
 
-      /*await mail('user.register', user.email, {
-        mail: user.email,
-        link: `${env.ARENA_WEBSITE}/valid/${user.registerToken}`
-      })*/
-
       log.info(`user ${user.email} created`)
+      await mail('user.register', user.email, {
+        mail: user.email,
+        link: `${env.WEBSITE}/valid/${user.registerToken}`
+      })
+
+      log.info(`mail sent to ${user.email}`)
 
       res
         .status(200)

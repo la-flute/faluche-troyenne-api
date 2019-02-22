@@ -27,7 +27,7 @@ module.exports = app => {
         attributes: ['id', 'number', 'places', 'floor'],
         include: [{
           model: User,
-          attributes: ['id', 'name', 'firstName']
+          attributes: ['id', 'nickName', 'firstName']
         }]
       })
       return res

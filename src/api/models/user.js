@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   return sequelize.define('user', {
     id: { primaryKey: true, type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4 },
-    name: { type: DataTypes.STRING },
+    nickName: { type: DataTypes.STRING },
     lastName: { type: DataTypes.STRING },
     firstName: { type: DataTypes.STRING },
     email: { type: DataTypes.STRING, validate: { isEmail: true }, unique: true },
@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     isMajeur: { type: DataTypes.BOOLEAN },
     regime: { type: DataTypes.STRING },
     allergies: { type: DataTypes.STRING },
+    medication: { type: DataTypes.STRING },
     folklore: { type: DataTypes.STRING },
     trajet: { type: DataTypes.STRING },
     trajet_commentaire: { type: DataTypes.STRING },

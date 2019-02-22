@@ -58,6 +58,12 @@ module.exports = app => {
           .json({ error: 'Bedroom full' })
           .end()
       }
+      if (user.bedroomId) {
+        return res
+          .status(400)
+          .json({ error: 'User already has a bedroom' })
+          .end()
+      }
       await bedroom.addUser(user)
       return res
         .status(200)
