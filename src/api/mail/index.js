@@ -8,17 +8,17 @@ const templates = fs
   .readdirSync(__dirname)
   .filter(f => f !== 'index.js')
   .map(name => {
-    const html = fs.readFileSync(path.join(__dirname, name, 'mail.html')).toString()
+    //const html = fs.readFileSync(path.join(__dirname, name, 'mail.html')).toString()
     const text = fs.readFileSync(path.join(__dirname, name, 'mail.txt')).toString()
     const subject = fs
       .readFileSync(path.join(__dirname, name, 'subject.txt'))
       .toString()
       .trim()
 
-    mustache.parse(html)
+    //mustache.parse(html)
     mustache.parse(text)
 
-    return { name, html, text, subject }
+    return { name, /*html,*/ text, subject }
   })
 
 module.exports = async (name, to, data) => {
