@@ -30,7 +30,7 @@ module.exports = async function(app, express) {
   if (!user) {
     const password = await hash(env.ADMIN_PASSWORD, parseInt(env.API_BCRYPT_LEVEL, 10))
     user = await User.create({
-      name: 'admin',
+      nickName: 'admin',
       password,
       firstName: 'admin_fname',
       lastName: 'admin_lname',
