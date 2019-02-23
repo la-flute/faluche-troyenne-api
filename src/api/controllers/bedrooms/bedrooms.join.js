@@ -6,7 +6,7 @@ const isAuth = require('../../middlewares/isAuth')
  */
 module.exports = app => {
 
-  app.post('/bedrooms/:id/join', [isAuth()])
+  app.post('/bedrooms/:id/join', [isAuth('bedroom-join')])
   app.post('/bedrooms/:id/join', async (req, res) => {
     const { Bedroom, User, Order } = req.app.locals.models
 
@@ -18,7 +18,7 @@ module.exports = app => {
             userId: req.user.id
           }
         })
-      if(!paid) {
+      if(!paid) { //TODO vérifier logement en dure payé
         return res
           .status(402)
           .json({ error :'NOT_PAID' })

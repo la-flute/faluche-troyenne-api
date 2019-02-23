@@ -1,6 +1,5 @@
 const errorHandler = require('../../utils/errorHandler')
 const isAuth = require('../../middlewares/isAuth')
-const isAdmin = require('../../middlewares/isAdmin')
 
 /**
  * GET /bedrooms
@@ -17,7 +16,6 @@ const isAdmin = require('../../middlewares/isAdmin')
  * ]
  */
 module.exports = app => {
-
   app.get('/bedrooms', [isAuth()])
   app.get('/bedrooms', async (req, res) => {
     const { Bedroom, User } = req.app.locals.models
@@ -25,10 +23,19 @@ module.exports = app => {
     try {
       let bedrooms = await Bedroom.findAll({
         attributes: ['id', 'number', 'places', 'floor'],
-        include: [{
-          model: User,
-          attributes: ['id', 'nickName', 'firstName']
-        }]
+        include: [
+          {
+            model: User,
+            attributes: ['id', 'nickName', 'firstName', 'lastName']
+          }
+        ]
+      })
+      bedrooms = bedrooms.map(bedroom => {
+        bedroom.users = bedroom.users.map(user => {
+          user.lastName = user.lastName[0].toUpperCase()
+          return user
+        })
+        return bedroom
       })
       return res
         .status(200)

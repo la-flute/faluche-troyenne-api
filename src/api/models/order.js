@@ -6,6 +6,5 @@ module.exports = (sequelize, DataTypes) => {
     paid_at: { type: DataTypes.STRING, defaultValue: null },
     transactionId: { type: DataTypes.INTEGER, defaultValue: 0 },
     transactionState: { type: DataTypes.STRING },
-    isBachusTroue: { type: DataTypes.BOOLEAN, defaultValue: false },
   })
 }
