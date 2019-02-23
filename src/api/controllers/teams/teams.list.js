@@ -24,8 +24,15 @@ module.exports = app => {
         attributes: ['id', 'name'],
         include: [{
           model: User,
-          attributes: ['id', 'nickName', 'firstName']
+          attributes: ['id', 'nickName', 'firstName', 'lastName']
         }]
+      })
+      teams = teams.map(team => {
+        team.users = team.users.map(user => {
+          user.lastName = user.lastName[0].toUpperCase()
+          return user
+        })
+        return team
       })
       return res
         .status(200)

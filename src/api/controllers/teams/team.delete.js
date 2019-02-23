@@ -3,23 +3,23 @@ const isAuth = require('../../middlewares/isAuth')
 const isAdmin = require('../../middlewares/isAdmin')
 
 /**
- * DELETE /bedrooms/:id
+ * DELETE /teams/:id
  *
  */
 module.exports = app => {
-  app.delete('/bedrooms/:id', [isAuth(), isAdmin('bedroom-delete')])
-  app.delete('/bedrooms/:id', async (req, res) => {
-    const { Bedroom } = req.app.locals.models
+  app.delete('/teams/:id', [isAuth(), isAdmin('team-delete')])
+  app.delete('/teams/:id', async (req, res) => {
+    const { Team } = req.app.locals.models
 
     try {
-      let bedroom = await Bedroom.findById(req.params.id)
-      if (!bedroom) {
+      let team = await Team.findById(req.params.id)
+      if (!team) {
         return res
           .status(404)
-          .json({ error: 'BEDROOM_NOT_FOUND' })
+          .json({ error: 'TEAM_NOT_FOUND' })
           .end()
       }
-      await bedroom.destroy()
+      await team.destroy()
       return res
         .status(200)
         .json('OK')
