@@ -1,7 +1,7 @@
 const errorHandler = require('../../utils/errorHandler')
 const isAuth = require('../../middlewares/isAuth')
-const isAdmin = require('../../middlewares/isAdmin')
 const env = require('../../../env')
+const moment = require('moment')
 
 /**
  * GET /prices
@@ -10,23 +10,29 @@ const env = require('../../../env')
  * [
  *    {
  *      id, name, value, start, end
- *      
+ *
  *    },...
  * ]
  */
 module.exports = app => {
-
-  app.get('/prices', [isAuth('prices-list'), isAdmin('prices-list')])
-  app.get('/prices', async (req, res) => {
+  app.get('/price', [isAuth('price')])
+  app.get('/price', async (req, res) => {
     const { Price } = req.app.locals.models
 
     try {
       let prices = await Price.findAll({
-        attributes: ['id', 'name', 'value', 'start', 'end']
+        attributes: ['id', 'value', 'start', 'end']
       })
+      const p = prices.find(
+        price => moment().isAfter(price.start) && moment().isBefore(price.end)
+      )
       return res
         .status(200)
-        .json({ prices, bacchusTroueReduc: env.BACCHUS_TROUE_REDUC, bedroomSupplement: env.BEDROOM_SUPPLEMENT })
+        .json({
+          price: p,
+          bacchusTroueReduc: parseInt(env.BACCHUS_TROUE_REDUC),
+          bedroomSupplement: parseInt(env.BEDROOM_SUPPLEMENT)
+        })
         .end()
     } catch (err) {
       errorHandler(err, res)
