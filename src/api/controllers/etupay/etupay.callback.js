@@ -2,6 +2,7 @@ const env = require('../../../env')
 const log = require('../../utils/log')(module)
 const moment = require('moment')
 const Base64 = require('js-base64').Base64
+const mail = require('../../mail')
 const etupay = require('@ung/node-etupay')({
   id: env.ETUPAY_ID,
   url: env.ETUPAY_URL,
@@ -15,19 +16,34 @@ async function handlePayload(models, payload) {
     const { orderId, userId } = data
     const user = await User.findById(userId)
 
-
-    if (!user) return { user: null, shouldSendMail: false, error: 'NULL_USER', transactionState: 'error' }
+    if (!user)
+      return {
+        user: null,
+        shouldSendMail: false,
+        error: 'NULL_USER',
+        transactionState: 'error'
+      }
     let order = await Order.findById(orderId)
-    if(order.paid) return { user, shouldSendMail: false, error: 'ALREADY_PAID', transactionState: 'error' }
+    if (order.paid)
+      return {
+        user,
+        shouldSendMail: false,
+        error: 'ALREADY_PAID',
+        transactionState: 'error'
+      }
 
     order.transactionId = payload.transactionId
     order.transactionState = payload.step
     order.paid = payload.paid
-    if(order.paid) {
+    if (order.paid) {
       order.paid_at = moment().format()
     }
 
-    log.info(`user ${user.email} is at state ${order.transactionState} for his order ${order.id}`)
+    log.info(
+      `user ${user.email} is at state ${order.transactionState} for his order ${
+        order.id
+      }`
+    )
 
     await user.save()
     await order.save()
@@ -38,12 +54,16 @@ async function handlePayload(models, payload) {
       error: null,
       transactionState: order.transactionState
     }
-  
   } catch (err) {
     const body = JSON.stringify(payload, null, 2)
 
     log.info(`handle payload error: ${body}`)
-    return { user: null, shouldSendMail: false, error: body, transactionState: 'error' }
+    return {
+      user: null,
+      shouldSendMail: false,
+      error: body,
+      transactionState: 'error'
+    }
   }
 }
 
@@ -59,11 +79,16 @@ async function handlePayload(models, payload) {
  * }
  */
 module.exports = app => {
-  app.post('/pay/callback', etupay.middleware, async (req, res) => {
-    let { shouldSendMail, user, error } = await handlePayload(req.app.locals.models, req.etupay)
+  app.post('/etupay/callback', etupay.middleware, async (req, res) => {
+    let { shouldSendMail, user, error } = await handlePayload(
+      req.app.locals.models,
+      req.etupay
+    )
     if (error) return res.status(200).end()
     if (shouldSendMail) {
-        //TODO send validation mail
+      await mail('user.paid', user.email, {
+        mail: user.email
+      })
     }
 
     return res
@@ -72,11 +97,16 @@ module.exports = app => {
       .end()
   })
 
-  app.get('/pay/return', etupay.middleware, async (req, res, next) => {
+  app.get('/etupay/return', etupay.middleware, async (req, res, next) => {
     if (req.query.payload) {
-      let { shouldSendMail, user, error, transactionState } = await handlePayload(req.app.locals.models, req.etupay)
+      let {
+        shouldSendMail,
+        user,
+        error,
+        transactionState
+      } = await handlePayload(req.app.locals.models, req.etupay)
       if (error) {
-        if(error === 'ALREADY_PAID') return res.redirect(env.ETUPAY_SUCCESSURL)
+        if (error === 'ALREADY_PAID') return res.redirect(env.ETUPAY_SUCCESSURL)
         else return res.redirect(env.ETUPAY_ERRORURL)
       }
       if (!user) {
@@ -86,9 +116,11 @@ module.exports = app => {
           .end()
       }
       if (shouldSendMail) {
-        //TODO send validation mail
+        await mail('user.paid', user.email, {
+          mail: user.email
+        })
       }
-      if(transactionState !== 'paid') {
+      if (transactionState !== 'paid') {
         log.info(`${user.email} was redirected to ${env.ETUPAY_ERRORURL}`)
         return res.redirect(env.ETUPAY_ERRORURL)
       }
