@@ -40,7 +40,8 @@ module.exports = app => {
         'order',
         'bedroomId',
         'teamId',
-        'permission'
+        'permission',
+        'attestation'
       ])
       result.permission = result.permission
         ? pick(result.permission, ['admin', 'bureau', 'treso', 'write'])

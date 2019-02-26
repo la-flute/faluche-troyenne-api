@@ -67,7 +67,7 @@ module.exports = app => {
       }
       await req.user.update(req.body)
 
-      log.info(`user ${req.body.email} updated`)
+      log.info(`user ${req.user.email} updated`)
 
       res
         .status(200)
