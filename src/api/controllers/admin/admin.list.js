@@ -30,12 +30,12 @@ module.exports = app => {
           studies: user.studies,
           town: user.town,
           folklore: user.folklore,
-          orders: user.orders.paid
+          orders: user.orders
         }
       })
       return res
         .status(200)
-        .json(users)
+        .json(usersFinal)
         .end()
     } catch (err) {
       errorHandler(err, res)
