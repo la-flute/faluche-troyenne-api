@@ -29,7 +29,8 @@ module.exports = app => {
           nickName: user.nickName,
           studies: user.studies,
           town: user.town,
-          folklore: user.folklore
+          folklore: user.folklore,
+          order: user.Order
         }
       })
       return res
