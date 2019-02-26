@@ -4,7 +4,7 @@ module.exports = (err, res) => {
   if (err.name === 'SequelizeUniqueConstraintError') {
     return res
       .status(400)
-      .json({ error: 'DUPLICATE_ENTRY' })
+      .json({ error: 'Ce compte existe déjà' })
       .end()
   }
 
