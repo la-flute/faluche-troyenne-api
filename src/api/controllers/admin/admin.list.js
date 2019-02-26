@@ -15,10 +15,10 @@ module.exports = app => {
 
   app.get('/admin/list', async (req, res) => {
     try {
-      const { User, Orders } = req.app.locals.models
+      const { User, Order } = req.app.locals.models
       const users = await User.findAll({
         // attributes: ['id', 'lastName', 'firstName', 'nickName', 'town'],
-        include: [{model: Orders}],
+        include: [{model: Order}],
         order: [['town', 'ASC']]
       })
 
@@ -30,7 +30,7 @@ module.exports = app => {
           studies: user.studies,
           town: user.town,
           folklore: user.folklore,
-          order: user.Orders
+          order: user.Order
         }
       })
       return res
