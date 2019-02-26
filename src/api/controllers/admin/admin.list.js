@@ -22,20 +22,20 @@ module.exports = app => {
         order: [['town', 'ASC']]
       })
 
-      let usersFinal = users.map(user =>{
-        return{
-          lastName: user.lastName.charAt(0).toUpperCase(),
-          firstName: user.firstName,
-          nickName: user.nickName,
-          studies: user.studies,
-          town: user.town,
-          folklore: user.folklore,
-          order: user.Order
-        }
-      })
+      // let usersFinal = users.map(user =>{
+      //   return{
+      //     lastName: user.lastName.charAt(0).toUpperCase(),
+      //     firstName: user.firstName,
+      //     nickName: user.nickName,
+      //     studies: user.studies,
+      //     town: user.town,
+      //     folklore: user.folklore,
+      //     order: user.order
+      //   }
+      // })
       return res
         .status(200)
-        .json(usersFinal)
+        .json(users)
         .end()
     } catch (err) {
       errorHandler(err, res)
