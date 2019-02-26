@@ -23,37 +23,37 @@ module.exports = app => {
   app.put('/user', [
     check('nickName')
       .optional()
-      .matches(/[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzªµºÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿĄąĆćĘęıŁłŃńŒœŚśŠšŸŹźŻżŽžƒˆˇˉμﬁﬂ \-]+/i)
+      .matches(
+        /[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzªµºÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿĄąĆćĘęıŁłŃńŒœŚśŠšŸŹźŻżŽžƒˆˇˉμﬁﬂ \-]+/i
+      )
       .isLength({ min: 3, max: 90 }),
     check('lastName')
       .exists()
-      .matches(/[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzªµºÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿĄąĆćĘęıŁłŃńŒœŚśŠšŸŹźŻżŽžƒˆˇˉμﬁﬂ \-]+/i)
+      .matches(
+        /[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzªµºÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿĄąĆćĘęıŁłŃńŒœŚśŠšŸŹźŻżŽžƒˆˇˉμﬁﬂ \-]+/i
+      )
       .isLength({ min: 2, max: 200 }),
     check('firstName')
       .exists()
-      .matches(/[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzªµºÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿĄąĆćĘęıŁłŃńŒœŚśŠšŸŹźŻżŽžƒˆˇˉμﬁﬂ \-]+/i)
+      .matches(
+        /[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzªµºÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿĄąĆćĘęıŁłŃńŒœŚśŠšŸŹźŻżŽžƒˆˇˉμﬁﬂ \-]+/i
+      )
       .isLength({ min: 2, max: 200 }),
-    check('town')
-      .exists(),
-    check('studies')
-      .exists(),
-    check('phone')
-      .exists(),
-    check('address')
-      .exists(),
+    check('town').exists(),
+    check('studies').exists(),
+    check('phone').exists(),
+    check('referent_lastName').optional(),
+    check('referent_firstName').optional(),
+    check('referent_phone').optional(),
+    check('address').exists(),
     check('isMajeur')
       .isBoolean()
       .exists(),
-    check('allergies')
-      .optional(),
-    check('medication')
-      .optional(),
-    check('folklore')
-      .exists(),
-    check('trajet')
-      .exists(),
-    check('trajet_commentaire')
-      .optional(),
+    check('allergies').optional(),
+    check('medication').optional(),
+    check('folklore').exists(),
+    check('trajet').exists(),
+    check('trajet_commentaire').optional(),
     validateBody()
   ])
 
@@ -71,25 +71,27 @@ module.exports = app => {
 
       res
         .status(200)
-        .json(pick(req.user, [
-          'id',
-          'nickName',
-          'firstName',
-          'lastName',
-          'email',
-          'town',
-          'studies',
-          'phone',
-          'address',
-          'isMajeur',
-          'allergies',
-          'folklore',
-          'trajet',
-          'trajet_commentaire',
-          'order',
-          'bedroomId',
-          'teamId'
-        ]))
+        .json(
+          pick(req.user, [
+            'id',
+            'nickName',
+            'firstName',
+            'lastName',
+            'email',
+            'town',
+            'studies',
+            'phone',
+            'address',
+            'isMajeur',
+            'allergies',
+            'folklore',
+            'trajet',
+            'trajet_commentaire',
+            'order',
+            'bedroomId',
+            'teamId'
+          ])
+        )
         .end()
     } catch (err) {
       errorHandler(err, res)

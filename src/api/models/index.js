@@ -27,12 +27,14 @@ module.exports = function(sequelize) {
   User.belongsTo(Bedroom)
   Bedroom.hasMany(User)
 
+  User.belongsTo(User, { foreignKey: 'referentId' })
+  User.hasMany(User, { foreignKey: 'referentId' })
+
   Permission.belongsTo(User)
   User.hasOne(Permission)
 
   User.belongsToMany(User, { through: Tinder, as: 'liked' })
   User.belongsToMany(User, { through: Target, as: 'targeted' })
-
 
   return {
     User,

@@ -31,6 +31,9 @@ module.exports = app => {
         'town',
         'studies',
         'phone',
+        'referent_lastName',
+        'referent_firstName',
+        'referent_phone',
         'address',
         'isMajeur',
         'allergies',
@@ -41,7 +44,8 @@ module.exports = app => {
         'bedroomId',
         'teamId',
         'permission',
-        'attestation'
+        'attestation',
+        'regime'
       ])
       result.permission = result.permission
         ? pick(result.permission, ['admin', 'bureau', 'treso', 'write'])
