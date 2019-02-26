@@ -17,7 +17,7 @@ module.exports = app => {
     try {
       const { User, Orders } = req.app.locals.models
       const users = await User.findAll({
-        attributes: ['id', 'lastName', 'firstName', 'nickName', 'town'],
+        // attributes: ['id', 'lastName', 'firstName', 'nickName', 'town'],
         include: [{model: Orders}],
         order: [['town', 'ASC']]
       })
