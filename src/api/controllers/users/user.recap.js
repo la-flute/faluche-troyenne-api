@@ -15,8 +15,9 @@ module.exports = app => {
 
   app.get('/user', async (req, res) => {
     try {
+      const { Order, User } = req.app.locals.models
       log.info(`user ${req.user.email} checked his infos`)
-      req.user.order = await req.app.locals.models.Order.findOne({
+      req.user.order = await Order.findOne({
         where: {
           paid: 1,
           userId: req.user.id
@@ -47,6 +48,14 @@ module.exports = app => {
         'attestation',
         'regime'
       ])
+      if (req.user.referentId) {
+        result.referent = await User.findById(req.user.referentId)
+        result.referent = `${result.referent.lastName[0].toUpperCase()}. ${
+          result.referent.firstName
+        }${
+          result.referent.nickName ? ' "' + result.referent.nickName + '"' : ''
+        }`
+      }
       result.permission = result.permission
         ? pick(result.permission, ['admin', 'bureau', 'treso', 'write'])
         : null

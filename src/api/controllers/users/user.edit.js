@@ -42,9 +42,10 @@ module.exports = app => {
     check('town').exists(),
     check('studies').exists(),
     check('phone').exists(),
-    check('referent_lastName').optional(),
-    check('referent_firstName').optional(),
-    check('referent_phone').optional(),
+    check('referentId').optional(),
+    check('referent_lastName').exists(),
+    check('referent_firstName').exists(),
+    check('referent_phone').exists(),
     check('address').exists(),
     check('isMajeur')
       .isBoolean()
