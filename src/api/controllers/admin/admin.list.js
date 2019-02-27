@@ -12,18 +12,17 @@ const isAdmin = require('../../middlewares/isAdmin')
  * ]
  */
 module.exports = app => {
-
   app.get('/admin/list', async (req, res) => {
     try {
       const { User, Order } = req.app.locals.models
       const users = await User.findAll({
         // attributes: ['id', 'lastName', 'firstName', 'nickName', 'town'],
-        include: [{model: Order, attributes:['paid']}],
+        include: [{ model: Order, attributes: ['paid'] }],
         order: [['town', 'ASC']]
       })
 
-      let usersFinal = users.map(user =>{
-        return{
+      let usersFinal = users.map(user => {
+        return {
           lastName: user.lastName.charAt(0).toUpperCase(),
           firstName: user.firstName,
           nickName: user.nickName,
