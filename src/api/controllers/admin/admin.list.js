@@ -22,7 +22,6 @@ module.exports = app => {
       })
       let usersFinal = users.map(user => {
         let paid = user.orders.find(o => o.paid)
-        paid = paid !== null
         return {
           lastName: user.lastName.charAt(0).toUpperCase(),
           firstName: user.firstName,
@@ -32,7 +31,7 @@ module.exports = app => {
           attestation: user.attestation,
           town: user.town,
           folklore: user.folklore,
-          paid,
+          paid: paid ? true : false,
           validated: user.validated
         }
       })
