@@ -4,7 +4,7 @@ const isAuth = require('../../middlewares/isAuth')
 const isAdmin = require('../../middlewares/isAdmin')
 
 module.exports = app => {
-  app.get('admin/listRoles', async (req, res) => {
+  app.get('/admin/listRoles', async (req, res) => {
     try {
       const { User, Permission } = req.app.locals.models
       const users = await User.findAll({
