@@ -12,25 +12,28 @@ const isAdmin = require('../../middlewares/isAdmin')
  * ]
  */
 module.exports = app => {
-
+  app.get('/admin/list', [isAuth('admin-list'), isAdmin('admin-list')])
   app.get('/admin/list', async (req, res) => {
     try {
       const { User, Order } = req.app.locals.models
-      const users = await User.findAll({
-        // attributes: ['id', 'lastName', 'firstName', 'nickName', 'town'],
-        include: [{model: Order, attributes:['paid']}],
-        order: [['town', 'ASC']]
+      let users = await User.findAll({
+        include: [{ model: Order, attributes: ['paid'] }],
+        order: [['town', 'ASC'], ['lastName', 'ASC'], ['firstName', 'ASC']]
       })
-
-      let usersFinal = users.map(user =>{
-        return{
+      let usersFinal = users.map(user => {
+        let paid = user.orders.find(o => o.paid)
+        paid = paid !== null
+        return {
           lastName: user.lastName.charAt(0).toUpperCase(),
           firstName: user.firstName,
           nickName: user.nickName,
           studies: user.studies,
+          caution: user.caution,
+          attestation: user.attestation,
           town: user.town,
           folklore: user.folklore,
-          orders: user.orders
+          paid,
+          validated: user.validated
         }
       })
       return res

@@ -24,5 +24,6 @@ module.exports = (sequelize, DataTypes) => {
     password: { type: DataTypes.STRING },
     registerToken: { type: DataTypes.STRING },
     resetToken: { type: DataTypes.STRING },
+    validated: { type: DataTypes.BOOLEAN, defaultValue: false },
   })
 }

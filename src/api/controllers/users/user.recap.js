@@ -46,7 +46,9 @@ module.exports = app => {
         'teamId',
         'permission',
         'attestation',
-        'regime'
+        'regime',
+        'validated',
+        'caution'
       ])
       if (req.user.referentId) {
         result.referent = await User.findById(req.user.referentId)
