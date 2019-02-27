@@ -1,4 +1,3 @@
-const log = require('../../utils/log')(module)
 const errorHandler = require('../../utils/errorHandler')
 const isAuth = require('../../middlewares/isAuth')
 const isAdmin = require('../../middlewares/isAdmin')
@@ -24,7 +23,7 @@ module.exports = app => {
         let paid = user.orders.find(o => o.paid)
         return {
           id: user.id,
-          lastName: user.lastName.charAt(0).toUpperCase(),
+          lastName: user.lastName,
           firstName: user.firstName,
           nickName: user.nickName,
           studies: user.studies,
