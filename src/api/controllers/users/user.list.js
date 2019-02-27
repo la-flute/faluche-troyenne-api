@@ -19,6 +19,7 @@ module.exports = app => {
 
       let usersFinal = users.map(user =>{
         return{
+          id: user.id,
           lastName: user.lastName.charAt(0).toUpperCase(),
           firstName: user.firstName,
           nickName: user.nickName,
