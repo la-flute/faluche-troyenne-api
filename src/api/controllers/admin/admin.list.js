@@ -23,6 +23,7 @@ module.exports = app => {
       let usersFinal = users.map(user => {
         let paid = user.orders.find(o => o.paid)
         return {
+          id: user.id,
           lastName: user.lastName.charAt(0).toUpperCase(),
           firstName: user.firstName,
           nickName: user.nickName,
