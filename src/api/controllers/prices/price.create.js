@@ -3,7 +3,6 @@ const { check } = require('express-validator/check')
 const validateBody = require('../../middlewares/validateBody')
 const isAuth = require('../../middlewares/isAuth')
 const isAdmin = require('../../middlewares/isAdmin')
-const moment = require('moment')
 
 /**
  * POST /prices
