@@ -37,6 +37,8 @@ module.exports = app => {
         'referent_phone',
         'address',
         'isMajeur',
+        'image',
+        'catchphrase',
         'allergies',
         'folklore',
         'trajet',

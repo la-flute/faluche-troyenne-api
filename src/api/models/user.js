@@ -16,6 +16,8 @@ module.exports = (sequelize, DataTypes) => {
     regime: { type: DataTypes.STRING },
     allergies: { type: DataTypes.STRING },
     medication: { type: DataTypes.STRING },
+    image: { type: DataTypes.STRING },
+    catchphrase: { type: DataTypes.STRING },
     folklore: { type: DataTypes.STRING },
     trajet: { type: DataTypes.STRING },
     trajet_commentaire: { type: DataTypes.STRING },

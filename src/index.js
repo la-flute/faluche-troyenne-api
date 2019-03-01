@@ -28,7 +28,10 @@ module.exports = async function(app, express) {
     }
   })
   if (!user) {
-    const password = await hash(env.ADMIN_PASSWORD, parseInt(env.API_BCRYPT_LEVEL, 10))
+    const password = await hash(
+      env.ADMIN_PASSWORD,
+      parseInt(env.API_BCRYPT_LEVEL, 10)
+    )
     user = await User.create({
       nickName: 'admin',
       password,
@@ -42,7 +45,6 @@ module.exports = async function(app, express) {
     })
     await user.setPermission(permission)
     log.info(`Set default user as admin`)
-
   } else {
     log.info(`User ${user.email} exist`)
   }
