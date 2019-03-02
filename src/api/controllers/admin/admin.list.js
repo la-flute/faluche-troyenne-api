@@ -32,6 +32,7 @@ module.exports = app => {
           town: user.town,
           folklore: user.folklore,
           paid: paid ? true : false,
+          trajet: user.trajet !== null,
           validated: user.validated
         }
       })
