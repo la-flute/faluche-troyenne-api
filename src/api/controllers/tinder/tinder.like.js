@@ -31,7 +31,7 @@ module.exports = app => {
       if (type === 'turbolike') {
         const turbolikes = await Tinder.findAll({
           attributes: ['id'],
-          where: { type: 'turbolike' }
+          where: { type: 'turbolike', userId: req.user.id }
         })
         if (turbolikes.length >= 3)
           return res
