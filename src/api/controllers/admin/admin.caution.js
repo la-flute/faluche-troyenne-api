@@ -1,0 +1,41 @@
+const errorHandler = require('../../utils/errorHandler')
+const { check } = require('express-validator/check')
+const validateBody = require('../../middlewares/validateBody')
+const isAuth = require('../../middlewares/isAuth')
+const isAdmin = require('../../middlewares/isAdmin')
+
+/**
+ * POST /admin/forcepay
+ *
+ * Body :
+ *
+ * { userId }
+ *
+ */
+module.exports = app => {
+  app.post('/admin/caution', [
+    isAuth('admin-caution'),
+    isAdmin('admin-caution')
+  ])
+  app.post('/admin/caution', [check('userId').exists(), validateBody()])
+  app.post('/admin/caution', async (req, res) => {
+    const { User } = req.app.locals.models
+    try {
+      const { userId } = req.body
+      let user = await User.findById(userId)
+      if (!user)
+        return res
+          .status(404)
+          .json({ error: 'NOT_FOUND' })
+          .end()
+      user.caution = true
+      await user.save()
+      return res
+        .status(200)
+        .json('OK')
+        .end()
+    } catch (err) {
+      errorHandler(err, res)
+    }
+  })
+}
