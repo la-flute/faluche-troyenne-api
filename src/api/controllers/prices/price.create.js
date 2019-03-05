@@ -23,8 +23,8 @@ module.exports = app => {
     check('value')
       .isNumeric()
       .exists(),
-    check('start').exists(),
-    check('end').exists(),
+    check('start').isString().exists(),
+    check('end').isString().exists(),
     validateBody()
   ])
   app.post('/prices', async (req, res) => {

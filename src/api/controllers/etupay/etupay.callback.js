@@ -87,7 +87,8 @@ module.exports = app => {
     if (error) return res.status(200).end()
     if (shouldSendMail) {
       await mail('user.paid', user.email, {
-        mail: user.email
+        mail: user.email,
+        link: `${env.WEBSITE}/dashboard/home`
       })
     }
 
@@ -117,7 +118,8 @@ module.exports = app => {
       }
       if (shouldSendMail) {
         await mail('user.paid', user.email, {
-          mail: user.email
+          mail: user.email,
+          link: `${env.WEBSITE}/dashboard/home`
         })
       }
       if (transactionState !== 'paid') {

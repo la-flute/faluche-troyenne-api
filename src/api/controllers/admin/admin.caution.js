@@ -17,7 +17,7 @@ module.exports = app => {
     isAuth('admin-caution'),
     isAdmin('admin-caution')
   ])
-  app.post('/admin/caution', [check('userId').exists(), validateBody()])
+  app.post('/admin/caution', [check('userId').isUUID().exists(), validateBody()])
   app.post('/admin/caution', async (req, res) => {
     const { User } = req.app.locals.models
     try {

@@ -18,9 +18,15 @@ module.exports = app => {
     isAdmin('admin-forcepay')
   ])
   app.post('/admin/forcepay', [
-    check('userId').exists(),
-    check('alcool').exists(),
-    check('bedroom').exists(),
+    check('userId')
+      .isUUID()
+      .exists(),
+    check('alcool')
+      .isBoolean()
+      .exists(),
+    check('bedroom')
+      .isBoolean()
+      .exists(),
     validateBody()
   ])
   app.post('/admin/forcepay', async (req, res) => {
@@ -29,7 +35,7 @@ module.exports = app => {
       const { userId, alcool, bedroom } = req.body
       let order = await Order.create({
         paid: 1,
-        alcool, 
+        alcool,
         bedroom,
         transactionState: 'forced'
       })

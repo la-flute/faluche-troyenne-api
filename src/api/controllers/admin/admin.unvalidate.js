@@ -18,7 +18,7 @@ module.exports = app => {
     isAuth('admin-unvalidate'),
     isTreso('admin-unvalidate')
   ])
-  app.post('/admin/unvalidate', [check('userId').exists(), validateBody()])
+  app.post('/admin/unvalidate', [check('userId').isUUID().exists(), validateBody()])
   app.post('/admin/unvalidate', async (req, res) => {
     const { User } = req.app.locals.models
     try {

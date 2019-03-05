@@ -18,7 +18,7 @@ module.exports = app => {
     isAuth('admin-validate'),
     isTreso('admin-validate')
   ])
-  app.post('/admin/validate', [check('userId').exists(), validateBody()])
+  app.post('/admin/validate', [check('userId').isUUID().exists(), validateBody()])
   app.post('/admin/validate', async (req, res) => {
     const { User } = req.app.locals.models
     try {

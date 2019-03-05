@@ -6,9 +6,9 @@ const isAdmin = require('../../middlewares/isAdmin')
 
 /**
  * POST /bedrooms
- * 
- * Body : 
- * 
+ *
+ * Body :
+ *
  * { number, floor, places }
  *
  * Response:
@@ -17,12 +17,13 @@ const isAdmin = require('../../middlewares/isAdmin')
  * }
  */
 module.exports = app => {
-
   app.post('/bedrooms/:id/users', [isAuth(), isAdmin()])
   app.post('/bedrooms/:id/users', [
     check('userId')
+      .isUUID()
       .exists(),
     check('force')
+      .isBoolean()
       .optional(),
     validateBody()
   ])

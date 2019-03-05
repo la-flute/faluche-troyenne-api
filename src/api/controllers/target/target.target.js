@@ -14,8 +14,8 @@ const isAuth = require('../../middlewares/isAuth')
 module.exports = app => {
   app.post('/targets', [isAuth('targets')])
   app.post('/targets', [
-    check('type').exists(),
-    check('userId').exists(),
+    check('type').isString().exists(),
+    check('userId').isUUID().exists(),
     validateBody()
   ])
   app.post('/targets', async (req, res) => {
