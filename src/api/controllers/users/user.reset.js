@@ -2,7 +2,7 @@ const { check } = require('express-validator/check')
 const bcrypt = require('bcryptjs')
 const uuid = require('uuid')
 const validateBody = require('../../middlewares/validateBody')
-//const mail = require('../../mail') //TODO
+const mail = require('../../mail')
 const env = require('../../../env')
 const errorHandler = require('../../utils/errorHandler')
 const log = require('../../utils/log')(module)
@@ -50,17 +50,16 @@ module.exports = app => {
 
       user.resetToken = uuid()
       await user.save()
-      // TODO
-      /*await mail('user.reset', user.email, {
+      await mail('user.reset', user.email, {
         mail: user.email,
-        link: `${env.ARENA_WEBSITE}/reset/${user.resetToken}`
-      })*/
+        link: `${env.WEBSITE}/reset/${user.resetToken}`
+      })
 
       log.info(`user ${user.email} asked for mail reset`)
 
       res
         .status(200)
-        .json({})
+        .json('OK')
         .end()
     } catch (err) {
       errorHandler(err, res)
@@ -107,7 +106,7 @@ module.exports = app => {
 
       res
         .status(200)
-        .json({})
+        .json('OK')
         .end()
     } catch (err) {
       errorHandler(err, res)
