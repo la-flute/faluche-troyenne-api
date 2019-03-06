@@ -7,37 +7,30 @@ const isAuth = require('../../middlewares/isAuth')
  *
  * Response:
  * [
- *    { id, lastName (only first letter), firstName, nickName, town, studies, folklore }, ...
+ *    { id, name, firstname, lastname, email, paid, }, ...
  * ]
  */
 module.exports = app => {
-  app.get('/users', isAuth('users'))
-  app.get('/users', async (req, res) => {
+  app.get('/users', isAuth('users-referents'))
+  app.get('/users/referents', async (req, res) => {
     try {
       const { User } = req.app.locals.models
       let users = await User.findAll({
         attributes: [
           'id',
           'firstName',
-          'lastName',
           'nickName',
           'town',
           'studies',
           'folklore'
         ],
-        order: [['town', 'ASC'], ['firstName', 'ASC']],
-        where: {
-          validated: true
-        },
-        raw: true
+        order: [['town', 'ASC'], ['firstName', 'ASC']]
       })
-
-      users = users.map(user => {
-        return {
-          ...user,
-          lastName: user.lastName.charAt(0).toUpperCase()
-        }
-      })
+      users = users.filter(
+        user =>
+          user.town &&
+          (user.folklore === 'faluchard' || user.folklore === 'autre')
+      )
       return res
         .status(200)
         .json(users)
