@@ -33,10 +33,10 @@ module.exports = async function(app, express) {
       parseInt(env.API_BCRYPT_LEVEL, 10)
     )
     user = await User.create({
-      nickName: 'admin',
+      nickName: 'Poutre',
       password,
-      firstName: 'admin_fname',
-      lastName: 'admin_lname',
+      firstName: 'La Flute',
+      lastName: 'X',
       email: env.ADMIN_MAIL
     })
     log.info(`Default user '${user.email}' created`)
