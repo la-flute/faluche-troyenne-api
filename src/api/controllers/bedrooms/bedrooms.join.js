@@ -18,7 +18,7 @@ module.exports = app => {
             userId: req.user.id
           }
         })
-      if(!paid) { //TODO vérifier logement en dure payé
+      if(!paid) { //TODO vérifier logement en dur payé
         return res
           .status(402)
           .json({ error :'NOT_PAID' })
