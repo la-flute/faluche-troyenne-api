@@ -2,6 +2,8 @@ const errorHandler = require('../../utils/errorHandler')
 const isAuth = require('../../middlewares/isAuth')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
+const isValide = require('../../middlewares/isValide')
+
 /**
  * GET /targets/matchs
  *
@@ -13,7 +15,7 @@ const Op = Sequelize.Op
  * ]
  */
 module.exports = app => {
-  app.get('/targets/matchs', [isAuth('targets-matchs')])
+  app.get('/targets/matchs', [isAuth('targets-matchs'), isValide('targets-matchs')])
   app.get('/targets/matchs', async (req, res) => {
     try {
       const { Target } = req.app.locals.models

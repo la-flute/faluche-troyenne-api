@@ -2,6 +2,8 @@ const errorHandler = require('../../utils/errorHandler')
 const isAuth = require('../../middlewares/isAuth')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
+const isValide = require('../../middlewares/isValide')
+
 /**
  * GET /tinders/matchs
  *
@@ -13,7 +15,7 @@ const Op = Sequelize.Op
  * ]
  */
 module.exports = app => {
-  app.get('/tinders/matchs', [isAuth('tinders-matchs')])
+  app.get('/tinders/matchs', [isAuth('tinders-matchs'), isValide('tinders-match')])
   app.get('/tinders/matchs', async (req, res) => {
     try {
       const { Tinder } = req.app.locals.models

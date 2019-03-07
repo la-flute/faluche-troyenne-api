@@ -1,5 +1,6 @@
 const errorHandler = require('../../utils/errorHandler')
 const isAuth = require('../../middlewares/isAuth')
+const isValide = require('../../middlewares/isValide')
 
 /**
  * GET /targets/users
@@ -12,7 +13,7 @@ const isAuth = require('../../middlewares/isAuth')
  * ]
  */
 module.exports = app => {
-  app.get('/targets/users', [isAuth('targets-users')])
+  app.get('/targets/users', [isAuth('targets-users'), isValide('targets-users')])
   app.get('/targets/users', async (req, res) => {
     try {
       const { User } = req.app.locals.models

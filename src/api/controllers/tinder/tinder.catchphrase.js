@@ -2,6 +2,7 @@ const errorHandler = require('../../utils/errorHandler')
 const { check } = require('express-validator/check')
 const validateBody = require('../../middlewares/validateBody')
 const isAuth = require('../../middlewares/isAuth')
+const isValide = require('../../middlewares/isValide')
 
 /**
  * POST /tinders/catchphrase
@@ -13,7 +14,7 @@ const isAuth = require('../../middlewares/isAuth')
  * Response: 'OK'
  */
 module.exports = app => {
-  app.post('/tinders/catchphrase', [isAuth('tinder-catchphrase')])
+  app.post('/tinders/catchphrase', [isAuth('tinder-catchphrase'), isValide('tinder-catchphrase')])
   app.post('/tinders/catchphrase', [
     check('catchphrase').exists(),
     validateBody()

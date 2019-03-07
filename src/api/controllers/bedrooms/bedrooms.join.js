@@ -15,6 +15,7 @@ module.exports = app => {
         .findOne({
           where: {
             paid: 1,
+            bedroom: true,
             userId: req.user.id
           }
         })

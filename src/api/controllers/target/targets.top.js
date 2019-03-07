@@ -1,5 +1,6 @@
 const errorHandler = require('../../utils/errorHandler')
 const isAuth = require('../../middlewares/isAuth')
+const isValide = require('../../middlewares/isValide')
 
 /**
  * GET /targets/top
@@ -10,7 +11,7 @@ const isAuth = require('../../middlewares/isAuth')
  * ]
  */
 module.exports = app => {
-  app.get('/targets/top', [isAuth('targets-top')])
+  app.get('/targets/top', [isAuth('targets-top'), isValide('targets-top')])
   app.get('/targets/top', async (req, res) => {
     try {
       const { Target } = req.app.locals.models

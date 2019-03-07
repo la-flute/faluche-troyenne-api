@@ -2,6 +2,7 @@ const errorHandler = require('../../utils/errorHandler')
 const { check } = require('express-validator/check')
 const validateBody = require('../../middlewares/validateBody')
 const isAuth = require('../../middlewares/isAuth')
+const isValide = require('../../middlewares/isValide')
 
 /**
  * POST /targets
@@ -12,7 +13,7 @@ const isAuth = require('../../middlewares/isAuth')
  *
  */
 module.exports = app => {
-  app.post('/targets', [isAuth('targets')])
+  app.post('/targets', [isAuth('targets'), isValide('targets')])
   app.post('/targets', [
     check('type').isString().exists(),
     check('userId').isUUID().exists(),

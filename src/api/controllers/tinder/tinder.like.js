@@ -2,6 +2,7 @@ const errorHandler = require('../../utils/errorHandler')
 const { check } = require('express-validator/check')
 const validateBody = require('../../middlewares/validateBody')
 const isAuth = require('../../middlewares/isAuth')
+const isValide = require('../../middlewares/isValide')
 
 /**
  * POST /tinders
@@ -13,7 +14,7 @@ const isAuth = require('../../middlewares/isAuth')
  * Response: 'MATCH'
  */
 module.exports = app => {
-  app.post('/tinders', [isAuth('tinder')])
+  app.post('/tinders', [isAuth('tinder'), isValide('tinder')])
   app.post('/tinders', [
     check('type').exists(),
     check('userId').exists(),
