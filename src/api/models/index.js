@@ -8,6 +8,7 @@ module.exports = function(sequelize) {
   const Target = sequelize.import(`${__dirname}/target`)
   const Price = sequelize.import(`${__dirname}/price`)
   const Item = sequelize.import(`${__dirname}/item`)
+  const Display = sequelize.import(`${__dirname}/display`)
 
   Order.belongsTo(User)
   User.hasMany(Order)
@@ -45,6 +46,7 @@ module.exports = function(sequelize) {
     Target,
     Team,
     Price,
-    Item
+    Item,
+    Display
   }
 }
