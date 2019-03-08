@@ -24,7 +24,7 @@ module.exports = app => {
         attributes: ['id', 'name'],
         include: [{
           model: User,
-          attributes: ['id', 'nickName', 'firstName', 'lastName']
+          attributes: ['id', 'nickName', 'firstName', 'lastName', 'town', 'studies']
         }]
       })
       teams = teams.map(team => {
