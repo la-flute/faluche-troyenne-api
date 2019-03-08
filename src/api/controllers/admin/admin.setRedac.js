@@ -30,7 +30,6 @@ module.exports = app => {
         where: { userId: req.params.id }
       })
       if (permission) {
-        console.log(req.body.write)
         permission.write = req.body.write
         await permission.save()
       } else {

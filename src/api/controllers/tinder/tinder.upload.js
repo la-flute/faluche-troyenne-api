@@ -23,6 +23,12 @@ const storage = multer.diskStorage({
       if (!user) {
         log.warn('invalid token : user not found')
         cb('INVALID_TOKEN', null)
+        return
+      }
+      if (!user.validated) {
+        log.warn('user not validated')
+        cb('NOT_VALIDE', null)
+        return 
       }
       const filename = user.id + '.' + file.originalname.split('.').pop()
       user.image = filename

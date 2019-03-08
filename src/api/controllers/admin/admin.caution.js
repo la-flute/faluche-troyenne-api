@@ -5,7 +5,7 @@ const isAuth = require('../../middlewares/isAuth')
 const isAdmin = require('../../middlewares/isAdmin')
 
 /**
- * POST /admin/forcepay
+ * POST /admin/caution
  *
  * Body :
  *

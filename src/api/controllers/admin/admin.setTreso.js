@@ -30,7 +30,6 @@ module.exports = app => {
         where: { userId: req.params.id }
       })
       if (permission) {
-        console.log(req.body.treso)
         permission.treso = req.body.treso
         await permission.save()
       } else {

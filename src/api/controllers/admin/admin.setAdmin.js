@@ -30,7 +30,6 @@ module.exports = app => {
         where: { userId: req.params.id }
       })
       if (permission) {
-        console.log(req.body.admin)
         permission.admin = req.body.admin
         await permission.save()
       } else {

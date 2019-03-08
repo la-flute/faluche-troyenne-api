@@ -5,7 +5,7 @@ const isAuth = require('../../middlewares/isAuth')
 const isWrite = require('../../middlewares/isWrite')
 
 /**
- * POST /admin/forcepay
+ * POST /displays
  *
  * Body :
  *

@@ -30,7 +30,6 @@ module.exports = app => {
         where: { userId: req.params.id }
       })
       if (permission) {
-        console.log(req.body.orga)
         permission.bureau = req.body.orga
         await permission.save()
       } else {
