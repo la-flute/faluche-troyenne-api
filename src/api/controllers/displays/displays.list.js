@@ -13,10 +13,7 @@ const isWrite = require('../../middlewares/isWrite')
  *
  */
 module.exports = app => {
-  app.get('/displays', [
-    isAuth('displays'),
-    isWrite('displays')
-  ])
+  app.get('/displays', [isAuth('displays'), isWrite('displays')])
   app.get('/displays', async (req, res) => {
     const { Display } = req.app.locals.models
     try {

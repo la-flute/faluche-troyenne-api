@@ -12,7 +12,7 @@ module.exports = app => {
     isAuth('admin-caution'),
     isAdmin('admin-caution/:userId')
   ])
-  app.delete('/admin/forcepay/:userId', async (req, res) => {
+  app.delete('/admin/caution/:userId', async (req, res) => {
     const { User } = req.app.locals.models
     try {
       const { userId } = req.params

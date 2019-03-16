@@ -3,10 +3,9 @@ const { check } = require('express-validator/check')
 const validateBody = require('../../middlewares/validateBody')
 const isAuth = require('../../middlewares/isAuth')
 const isTreso = require('../../middlewares/isTreso')
-const moment = require('moment')
 
 /**
- * POST /admin/forcepay
+ * POST /admin/unvalidate
  *
  * Body :
  *
@@ -24,7 +23,6 @@ module.exports = app => {
     try {
       const { userId } = req.body
 
-      console.log(userId)
       await User.update({ validated: 0 }, { where: {id: userId} })
       return res
         .status(200)
