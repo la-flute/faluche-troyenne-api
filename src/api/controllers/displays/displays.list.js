@@ -5,11 +5,11 @@ const isAuth = require('../../middlewares/isAuth')
 const isWrite = require('../../middlewares/isWrite')
 
 /**
- * POST /admin/forcepay
+ * GET /display
  *
  * Body :
  *
- * { userId, alcool, bedroom }
+ * { }
  *
  */
 module.exports = app => {
@@ -17,10 +17,10 @@ module.exports = app => {
     isAuth('displays'),
     isWrite('displays')
   ])
-  app.post('/displays', async (req, res) => {
+  app.get('/displays', async (req, res) => {
     const { Display } = req.app.locals.models
     try {
-      let displays = await Bedroom.findAll({
+      let displays = await Display.findAll({
         attributes: ['name', 'display'],
       })
       return res
