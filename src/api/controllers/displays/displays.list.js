@@ -5,7 +5,7 @@ const isAuth = require('../../middlewares/isAuth')
 const isWrite = require('../../middlewares/isWrite')
 
 /**
- * POST /displays
+ * GET /displays
  *
  * Body :
  *
@@ -13,15 +13,12 @@ const isWrite = require('../../middlewares/isWrite')
  *
  */
 module.exports = app => {
-  app.get('/displays', [
-    isAuth('displays'),
-    isWrite('displays')
-  ])
-  app.post('/displays', async (req, res) => {
+  app.get('/displays', [isAuth('displays'), isWrite('displays')])
+  app.get('/displays', async (req, res) => {
     const { Display } = req.app.locals.models
     try {
-      let displays = await Bedroom.findAll({
-        attributes: ['name', 'display'],
+      let displays = await Display.findAll({
+        attributes: ['name', 'code', 'render'],
       })
       return res
         .status(200)
