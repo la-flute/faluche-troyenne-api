@@ -1,6 +1,4 @@
 const errorHandler = require('../../utils/errorHandler')
-const { check } = require('express-validator/check')
-const validateBody = require('../../middlewares/validateBody')
 const isAuth = require('../../middlewares/isAuth')
 const isWrite = require('../../middlewares/isWrite')
 

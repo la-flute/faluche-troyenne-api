@@ -13,7 +13,7 @@ const isWrite = require('../../middlewares/isWrite')
 module.exports = app => {
   app.post('/displays/:code/enable', [
     isAuth('displays-enable'),
-    isWrite('displays-enable'),
+    isWrite('displays-enable')
   ])
   app.post('/displays/:code/enable', async (req, res) => {
     const { Display } = req.app.locals.models
@@ -21,8 +21,8 @@ module.exports = app => {
       let enable = await Display.findOne({
         attributes: ['id', 'name', 'code', 'render'],
         where: {
-          code: req.params.code,
-        },
+          code: req.params.code
+        }
       })
       enable.render = true
       enable.save()
