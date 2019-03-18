@@ -10,6 +10,8 @@ module.exports = route => async (req, res, next) => {
 
   const auth = req.get('X-Token')
 
+  console.log(auth)
+
   if (!auth || auth.length === 0) {
     log.warn('missing token', { route })
 
@@ -23,12 +25,9 @@ module.exports = route => async (req, res, next) => {
     const decoded = await jwt.verify(auth, env.API_SECRET)
 
     const user = await User.findById(decoded.id, {
-      include:
-      [
-        Permission
-      ]
+      include: [Permission],
     })
-    if(!user) {
+    if (!user) {
       log.warn('invalid token : user not found', { route })
       return res
         .status(401)
@@ -38,8 +37,7 @@ module.exports = route => async (req, res, next) => {
     req.user = user
 
     next()
-  }
-  catch (err) {
+  } catch (err) {
     log.warn('invalid token', { route })
 
     return res

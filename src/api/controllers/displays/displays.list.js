@@ -1,27 +1,22 @@
 const errorHandler = require('../../utils/errorHandler')
-const { check } = require('express-validator/check')
-const validateBody = require('../../middlewares/validateBody')
 const isAuth = require('../../middlewares/isAuth')
 const isWrite = require('../../middlewares/isWrite')
 
 /**
- * POST /displays
+ * GET /displays
  *
  * Body :
  *
- * { userId, alcool, bedroom }
+ * { }
  *
  */
 module.exports = app => {
-  app.get('/displays', [
-    isAuth('displays'),
-    isWrite('displays')
-  ])
-  app.post('/displays', async (req, res) => {
+  app.get('/displays', [isAuth('displays'), isWrite('displays')])
+  app.get('/displays', async (req, res) => {
     const { Display } = req.app.locals.models
     try {
-      let displays = await Bedroom.findAll({
-        attributes: ['name', 'display'],
+      let displays = await Display.findAll({
+        attributes: ['name', 'code', 'render'],
       })
       return res
         .status(200)
