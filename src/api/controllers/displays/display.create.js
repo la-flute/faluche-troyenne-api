@@ -2,7 +2,7 @@ const errorHandler = require('../../utils/errorHandler')
 const { check } = require('express-validator/check')
 const validateBody = require('../../middlewares/validateBody')
 const isAuth = require('../../middlewares/isAuth')
-const isWrite = require('../../middlewares/isWrite')
+const isAdmin = require('../../middlewares/isAdmin')
 
 /**
  * POST /bedrooms
@@ -18,7 +18,7 @@ const isWrite = require('../../middlewares/isWrite')
  */
 module.exports = app => {
 
-  app.post('/displays', [isAuth(), isWrite()])
+  app.post('/displays', [isAuth(), isAdmin()])
   app.post('/displays', [
     check('name')
       .isString()
@@ -28,14 +28,14 @@ module.exports = app => {
       .exists(),
     check('render')
       .isBoolean()
-      .exists(),
+      .optional(),
     validateBody()
   ])
   app.post('/displays', async (req, res) => {
     const { Display } = req.app.locals.models
 
     try {
-      let displays = await Display.create(req.body)
+      let display = await Display.create(req.body)
       return res
         .status(200)
         .json(display)
