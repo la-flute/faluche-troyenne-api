@@ -1,6 +1,9 @@
 const log = require('../../utils/log')(module)
 const errorHandler = require('../../utils/errorHandler')
 const isAuth = require('../../middlewares/isAuth')
+const bcrypt = require('bcryptjs')
+
+const hash = require('util').promisify(bcrypt.hash)
 
 /**
  * GET /users
@@ -31,11 +34,12 @@ module.exports = app => {
         },
         raw: true
       })
-
+      
       users = users.map(user => {
         return {
           ...user,
-          lastName: user.lastName.charAt(0).toUpperCase()
+          lastName: user.lastName.charAt(0).toUpperCase(),
+          hash: bcrypt.hash(user.firstName)
         }
       })
       return res

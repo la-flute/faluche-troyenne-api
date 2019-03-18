@@ -3,11 +3,15 @@ const isAuth = require('../../middlewares/isAuth')
 const isWrite = require('../../middlewares/isWrite')
 
 /**
+<<<<<<< HEAD
  * GET /displays
+=======
+ * GET /display
+>>>>>>> dev
  *
  * Body :
  *
- * { userId, alcool, bedroom }
+ * { }
  *
  */
 module.exports = app => {
@@ -16,7 +20,11 @@ module.exports = app => {
     const { Display } = req.app.locals.models
     try {
       let displays = await Display.findAll({
+<<<<<<< HEAD
         attributes: ['name', 'code', 'render'],
+=======
+        attributes: ['name', 'display'],
+>>>>>>> dev
       })
       return res
         .status(200)
