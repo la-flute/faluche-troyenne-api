@@ -1,6 +1,6 @@
 const errorHandler = require('../../utils/errorHandler')
 const isAuth = require('../../middlewares/isAuth')
-const isAdmin = require('../../middlewares/isAdmin')
+const isOrga = require('../../middlewares/isOrga')
 const env = require('../../../env')
 
 /**
@@ -10,23 +10,26 @@ const env = require('../../../env')
  * [
  *    {
  *      id, name, value, start, end
- *      
+ *
  *    },...
  * ]
  */
 module.exports = app => {
-
-  app.get('/prices', [isAuth('prices-list'), isAdmin('prices-list')])
+  app.get('/prices', [isAuth('prices-list'), isOrga('prices-list')])
   app.get('/prices', async (req, res) => {
     const { Price } = req.app.locals.models
 
     try {
       let prices = await Price.findAll({
-        attributes: ['id', 'name', 'value', 'start', 'end']
+        attributes: ['id', 'name', 'value', 'start', 'end'],
       })
       return res
         .status(200)
-        .json({ prices, bacchusTroueReduc: env.BACCHUS_TROUE_REDUC, bedroomSupplement: env.BEDROOM_SUPPLEMENT })
+        .json({
+          prices,
+          bacchusTroueReduc: env.BACCHUS_TROUE_REDUC,
+          bedroomSupplement: env.BEDROOM_SUPPLEMENT,
+        })
         .end()
     } catch (err) {
       errorHandler(err, res)

@@ -1,6 +1,6 @@
 const errorHandler = require('../../utils/errorHandler')
 const isAuth = require('../../middlewares/isAuth')
-const isAdmin = require('../../middlewares/isAdmin')
+const isOrga = require('../../middlewares/isOrga')
 
 /**
  * GET /admin/list
@@ -11,13 +11,13 @@ const isAdmin = require('../../middlewares/isAdmin')
  * ]
  */
 module.exports = app => {
-  app.get('/admin/list', [isAuth('admin-list'), isAdmin('admin-list')])
+  app.get('/admin/list', [isAuth('admin-list'), isOrga('admin-list')])
   app.get('/admin/list', async (req, res) => {
     try {
       const { User, Order } = req.app.locals.models
       let users = await User.findAll({
         include: [{ model: Order, attributes: ['paid'] }],
-        order: [['town', 'ASC'], ['lastName', 'ASC'], ['firstName', 'ASC']]
+        order: [['town', 'ASC'], ['lastName', 'ASC'], ['firstName', 'ASC']],
       })
       let usersFinal = users.map(user => {
         let paid = user.orders.find(o => o.paid)
@@ -33,7 +33,7 @@ module.exports = app => {
           folklore: user.folklore,
           paid: paid ? true : false,
           trajet: user.trajet !== null,
-          validated: user.validated
+          validated: user.validated,
         }
       })
       return res
