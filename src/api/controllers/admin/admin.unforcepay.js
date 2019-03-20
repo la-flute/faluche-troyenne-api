@@ -1,6 +1,6 @@
 const errorHandler = require('../../utils/errorHandler')
 const isAuth = require('../../middlewares/isAuth')
-const isAdmin = require('../../middlewares/isAdmin')
+const isTreso = require('../../middlewares/isAdmin')
 
 /**
  * POST /admin/forcepay
@@ -13,7 +13,7 @@ const isAdmin = require('../../middlewares/isAdmin')
 module.exports = app => {
   app.delete('/admin/forcepay/:userId', [
     isAuth('admin-forcepay'),
-    isAdmin('admin-forcepay/:userId')
+    isTreso('admin-forcepay/:userId'),
   ])
   app.delete('/admin/forcepay/:userId', async (req, res) => {
     const { Order } = req.app.locals.models
