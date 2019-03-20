@@ -4,6 +4,6 @@ module.exports = (sequelize, DataTypes) => {
     name: { type: DataTypes.STRING },
     start: { type: DataTypes.DATE },
     end: { type: DataTypes.DATE },
-    value: { type: DataTypes.INTEGER, defaultValue: 0 },
+    value: { type: DataTypes.DOUBLE, defaultValue: 0 },
   })
 }

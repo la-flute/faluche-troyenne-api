@@ -10,7 +10,6 @@ module.exports = route => async (req, res, next) => {
 
   const auth = req.get('X-Token')
 
-  console.log(auth)
 
   if (!auth || auth.length === 0) {
     log.warn('missing token', { route })
