@@ -2,7 +2,7 @@ const errorHandler = require('../../utils/errorHandler')
 const { check } = require('express-validator/check')
 const validateBody = require('../../middlewares/validateBody')
 const isAuth = require('../../middlewares/isAuth')
-const isAdmin = require('../../middlewares/isAdmin')
+const isTreso = require('../../middlewares/isTreso')
 
 /**
  * POST /admin/caution
@@ -15,9 +15,14 @@ const isAdmin = require('../../middlewares/isAdmin')
 module.exports = app => {
   app.post('/admin/caution', [
     isAuth('admin-caution'),
-    isAdmin('admin-caution')
+    isTreso('admin-caution'),
   ])
-  app.post('/admin/caution', [check('userId').isUUID().exists(), validateBody()])
+  app.post('/admin/caution', [
+    check('userId')
+      .isUUID()
+      .exists(),
+    validateBody(),
+  ])
   app.post('/admin/caution', async (req, res) => {
     const { User } = req.app.locals.models
     try {

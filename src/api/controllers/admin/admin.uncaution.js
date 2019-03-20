@@ -1,6 +1,6 @@
 const errorHandler = require('../../utils/errorHandler')
 const isAuth = require('../../middlewares/isAuth')
-const isAdmin = require('../../middlewares/isAdmin')
+const isTreso = require('../../middlewares/isTreso')
 
 /**
  * DELETE /admin/caution/:id
@@ -10,7 +10,7 @@ const isAdmin = require('../../middlewares/isAdmin')
 module.exports = app => {
   app.delete('/admin/caution/:userId', [
     isAuth('admin-caution'),
-    isAdmin('admin-caution/:userId')
+    isTreso('admin-caution/:userId'),
   ])
   app.delete('/admin/caution/:userId', async (req, res) => {
     const { User } = req.app.locals.models

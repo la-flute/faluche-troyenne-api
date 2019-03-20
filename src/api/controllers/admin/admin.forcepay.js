@@ -2,7 +2,7 @@ const errorHandler = require('../../utils/errorHandler')
 const { check } = require('express-validator/check')
 const validateBody = require('../../middlewares/validateBody')
 const isAuth = require('../../middlewares/isAuth')
-const isAdmin = require('../../middlewares/isAdmin')
+const isTreso = require('../../middlewares/isTreso')
 
 /**
  * POST /admin/forcepay
@@ -15,7 +15,7 @@ const isAdmin = require('../../middlewares/isAdmin')
 module.exports = app => {
   app.post('/admin/forcepay', [
     isAuth('admin-forcepay'),
-    isAdmin('admin-forcepay')
+    isTreso('admin-forcepay'),
   ])
   app.post('/admin/forcepay', [
     check('userId')
@@ -27,7 +27,7 @@ module.exports = app => {
     check('bedroom')
       .isBoolean()
       .exists(),
-    validateBody()
+    validateBody(),
   ])
   app.post('/admin/forcepay', async (req, res) => {
     const { Order } = req.app.locals.models
@@ -37,7 +37,7 @@ module.exports = app => {
         paid: 1,
         alcool,
         bedroom,
-        transactionState: 'forced'
+        transactionState: 'forced',
       })
       order.setUser(userId)
       return res
