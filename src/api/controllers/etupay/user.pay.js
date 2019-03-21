@@ -98,6 +98,7 @@ module.exports = app => {
           .status(403)
           .json('NO_PALIER')
           .end()
+      order.setPrice(price)
       price = price.value
       const basket = new Basket(
         'Inscription WET3',
