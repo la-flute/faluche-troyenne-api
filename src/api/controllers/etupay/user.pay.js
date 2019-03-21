@@ -111,7 +111,7 @@ module.exports = app => {
       else
         basket.addItem(
           'Place WET3 Bacchus troué',
-          euro * price - env.BACCHUS_TROUE_REDUC,
+          euro * price - env.BACCHUS_TROUE_REDUC * euro,
           1
         )
 
