@@ -41,20 +41,41 @@ module.exports = app => {
   ])
 
   app.post('/user/pay', async (req, res) => {
-    // TODO vérifier s'il reste des places dans une chambre avant de valider l'achat d'une place en chambre
     try {
       if (env.PAYMENT_DISABLED === '1')
         return res
           .status(404)
           .json({ error: 'PAYMENT_DISABLED' })
           .end()
-      const { User, Order, Price } = req.app.locals.models
+      const { User, Order, Price, Bedroom } = req.app.locals.models
+      if (req.body.bedroom) {
+        const bedrooms = await Bedroom.findAll({
+          attributes: ['places']
+        })
+        let count = 0
+        bedrooms.forEach(bedroom => {
+          count += bedroom.places
+        })
+        const bedroomOrdersCount = await Order.count({
+          where: {
+            paid: 1,
+            bedroom: 1
+          }
+        })
+        if (bedroomOrdersCount >= count) {
+          return res
+            .status(400)
+            .json({ error: 'NO_BEDROOM_LEFT' })
+            .end()
+        }
+      }
       let totalPaidUsers = await User.findAll({
         attributes: ['id'],
         include: [Order]
       })
-      totalPaidUsers = totalPaidUsers
-        .filter(user => user.order && user.order.paid === true)
+      totalPaidUsers = totalPaidUsers.filter(
+        user => user.order && user.order.paid === true
+      )
 
       if (totalPaidUsers.length >= env.MAX_PLACES)
         return res
