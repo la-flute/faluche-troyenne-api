@@ -22,7 +22,11 @@ module.exports = app => {
           .status(404)
           .json({ error: 'NOT_FOUND' })
           .end()
-
+      if (!user.image)
+        return res
+          .status(404)
+          .json({ error: 'NO_IMAGE' })
+          .end()
       res.sendFile(path.join(__dirname, '../../../../images', user.image))
     } catch (err) {
       errorHandler(err, res)

@@ -39,7 +39,7 @@ module.exports = app => {
         return {
           ...user,
           lastName: user.lastName.charAt(0).toUpperCase(),
-          hash: bcrypt.hash(user.firstName)
+          hash: user.firstName ? bcrypt.hash(user.firstName) : ''
         }
       })
       return res
