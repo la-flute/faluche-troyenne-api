@@ -34,7 +34,7 @@ module.exports = app => {
           attributes: ['id'],
           where: { type: 'turbolike', userId: req.user.id }
         })
-        if (turbolikes.length >= 3)
+        if (turbolikes.length >= req.user.maxTurboLikes)
           return res
             .status(400)
             .json({ error: 'NO_MORE_TURBOLIKES' })

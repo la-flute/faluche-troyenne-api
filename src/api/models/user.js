@@ -1,10 +1,18 @@
 module.exports = (sequelize, DataTypes) => {
   return sequelize.define('user', {
-    id: { primaryKey: true, type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4 },
+    id: {
+      primaryKey: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4
+    },
     nickName: { type: DataTypes.STRING },
     lastName: { type: DataTypes.STRING },
     firstName: { type: DataTypes.STRING },
-    email: { type: DataTypes.STRING, validate: { isEmail: true }, unique: true },
+    email: {
+      type: DataTypes.STRING,
+      validate: { isEmail: true },
+      unique: true
+    },
     town: { type: DataTypes.STRING },
     studies: { type: DataTypes.STRING },
     phone: { type: DataTypes.STRING },
@@ -27,5 +35,6 @@ module.exports = (sequelize, DataTypes) => {
     registerToken: { type: DataTypes.STRING },
     resetToken: { type: DataTypes.STRING },
     validated: { type: DataTypes.BOOLEAN, defaultValue: false },
+    maxTurboLikes: { type: DataTypes.INTEGER, defaultValut: 3 }
   })
 }
