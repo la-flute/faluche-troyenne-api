@@ -16,7 +16,7 @@ module.exports = app => {
     try {
       const { User, Tinder } = req.app.locals.models
       let users = await User.findAll({
-        attributes: ['id', 'nickName', 'firstName', 'image']
+        attributes: ['id', 'nickName', 'firstName', 'image', 'catchphrase']
       })
       const tinders = await Tinder.findAll({
         where: { userId: req.user.id },
